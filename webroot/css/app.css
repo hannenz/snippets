@@ -75,12 +75,13 @@ body.busy .busy-overlay {
 }
 
 .snippet-meta {
+	margin-top:1.5em;
+	margin-bottom:1.5em;
 	font-size:0.75em;
 	color:#aaa;
 }
 
 .snippet-meta-tags {
-	border-top:1px solid #f2f2f3;
 	padding-top:4px;
 	margin-top:4px;
 	height:1.5em;

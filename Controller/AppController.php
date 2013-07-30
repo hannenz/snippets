@@ -47,8 +47,16 @@ class AppController extends Controller {
 		)
 	);
 
+	public $helpers = array(
+		'Html', 'Form', 'Session', 'Text', 'Time', 'Tagcloud'
+	);
+
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->allow('index', 'view');
+
+		$this->activeUser = $this->Session->read('User');
+		$this->set('activeUser', $this->activeUser);
+
 	}
 }

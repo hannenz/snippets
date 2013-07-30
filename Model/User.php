@@ -1,5 +1,10 @@
 <?php
 class User extends AppModel {
+
+	public $actsAs = array(
+		'Containable'
+	);
+
 	public $validate = array(
 		'email' => array(
 			'unique' => array(
@@ -26,6 +31,19 @@ class User extends AppModel {
 				'message' => 'Die beiden eingegeben Passwörter stimmen nicht überein'
 
 			)
+		)
+	);
+
+	public $hasMany = array(
+		'Snippet'
+	);
+
+	public $hasAndBelongsToMany = array(
+		'Favorite' => array(
+			'className' => 'Snippet',
+			'joinTable' => 'snippets_users',
+			'foreignKey' => 'user_id',
+			'associationForeignKey' => 'snippet_id'
 		)
 	);
 

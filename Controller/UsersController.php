@@ -16,6 +16,11 @@ class UsersController extends AppController {
 
 		if ($this->request->is('post')){
 			if ($this->Auth->login()){
+
+				$this->User->id = $this->Auth->user('id');
+				$this->User->contain(array('Snippet', 'Favorite'));
+				$this->Session->write('User', $this->User->read());
+
 				$this->redirect($this->Auth->redirect());
 			}
 			else {

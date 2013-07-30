@@ -28,6 +28,7 @@
 					<li><?php echo $this->Html->link('<i class="icon-share"></i> Empfehlen', array('action' => 'recommend', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false));?></li>
 					<li><?php echo $this->Html->link('<i class="icon-edit"></i> Bearbeiten', array('action' => 'edit', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false)); ?></li>
 					<li><?php echo $this->Form->postLink('<i class="icon-remove"></i> Löschen', array('action' => 'delete', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false), 'Bist du sicher, dass du diesen Schnipsel löschen willst?'); ?></li>
+					<li><?php echo $this->Html->link('<i class="icon-star"></i> Merken', array('action' => 'starr', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false)); ?></li>
 				</ul>
 			</div>
 			<?php

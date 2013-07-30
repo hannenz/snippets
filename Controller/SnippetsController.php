@@ -10,6 +10,19 @@ class SnippetsController extends AppController {
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->allow('add');
+
+		$this->Snippet->Tag->contain(array('Snippet'));
+		$this->Snippet->Tag->recursive = -1;
+		$_tags = $this->Snippet->Tag->find('all');
+		$tagcloudTags = array();
+		foreach ($_tags as $_tag){
+			$n = count($_tag['Snippet']);
+			if ($n > 0){
+				$key = $_tag['Tag']['name'];
+				$tagcloudTags[$key] = $n;
+			}
+		}
+		$this->set(compact('tagcloudTags'));
 	}
 
 /**
@@ -18,6 +31,7 @@ class SnippetsController extends AppController {
  * @return void
  */
 	public function index() {
+
 		$filters = array();
 		$conditions = array();
 
@@ -32,6 +46,12 @@ class SnippetsController extends AppController {
 		if (!empty($this->request->params['named']['tag_id'])){
 			$this->Snippet->Tag->contain(array('Snippet'));
 			$tag = $this->Snippet->Tag->read(null, $this->request->params['named']['tag_id']);
+			$conditions['Snippet.id'] = Set::extract('/Snippet/id',  $tag);
+			$filters['tag'] = $tag['Tag']['name'];
+		}
+		if (!empty($this->request->params['named']['tag_name'])){
+			$this->Snippet->Tag->contain(array('Snippet'));
+			$tag = $this->Snippet->Tag->findByName($this->request->params['named']['tag_name']);
 			$conditions['Snippet.id'] = Set::extract('/Snippet/id',  $tag);
 			$filters['tag'] = $tag['Tag']['name'];
 		}
@@ -131,15 +151,39 @@ class SnippetsController extends AppController {
 			if ($this->Snippet->save($this->request->data)) {
 				$this->Session->setFlash(__('The snippet has been saved'));
 				$this->redirect(array('action' => 'index'));
-			} else {
+			}
+			else {
 				$this->Session->setFlash(__('The snippet could not be saved. Please, try again.'));
 			}
 		} else {
 			$this->request->data = $this->Snippet->read(null, $id);
+			if ($this->request->data['Snippet']['user_id'] !== $this->Auth->user('id')){
+				$this->Session->setFlash('Du kannst nur deine eigenen Schnipsel bearbeiten');
+				$this->redirect($this->referer());
+			}
 		}
 		$users = $this->Snippet->User->find('list');
 		$tags = $this->Snippet->Tag->find('list');
 		$this->set(compact('users', 'tags'));
+	}
+
+	public function starr($id){
+		$this->Snippet->id = $id;
+		if (!$this->Snippet->exists()) {
+			throw new NotFoundException(__('Invalid snippet'));
+		}
+
+		if ($this->activeUser['User']['id']){
+			$query = sprintf('INSERT into `snippets_users` (snippet_id, user_id) VALUES (%u, %u)', $id, $this->activeUser['User']['id']);
+			$this->Snippet->query($query);
+		}
+
+		$this->Snippet->User->contain(array('Favorite'));
+		$user = $this->Snippet->User->read(null, $this->activeUser['User']['id']);
+		$this->Session->write('activeUser.Favorite',  $user['Favorite']);
+
+		$this->redirect(array('action' => 'index'));
+
 	}
 
 /**

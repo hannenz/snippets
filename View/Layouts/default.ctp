@@ -88,12 +88,30 @@
 
 		<header>
 		</header>
-
-		<div class="content">
-
-			<?php echo $this->Session->flash(); ?>
-			<?php echo $this->fetch('content'); ?>
-		</div>
+		<div class="row">
+			<div class="nine columns">
+				<div class="content">
+					<?php echo $this->Session->flash(); ?>
+					<?php echo $this->fetch('content'); ?>
+				</div>
+			</div>
+			<div class="three columns">
+				<?php if (!empty($tagcloudTags)):?>
+				<aside>
+					<h2>Tags</h2>
+					 <?php echo $this->Tagcloud->word_cloud($tagcloudTags);?>
+				</aside>
+				<?php endif ?>
+				<?php if ($userId && count($activeUser['Favorite']) > 0):?>
+					<aside>
+						<h2>Favoriten</h2>
+						<ul>
+						<?php foreach ($activeUser['Favorite'] as $fav):?>
+							<li><?php echo $this->Html->link($fav['title'], array('controller' => 'snippets', 'action' => 'view', $fav['id'])); ?></li>
+						<?php endforeach ?>
+						</ul>
+					</aside>
+				<?php endif ?>
 		<footer>
 		</footer>
 	</div>
