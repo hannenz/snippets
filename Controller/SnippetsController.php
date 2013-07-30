@@ -78,15 +78,41 @@ class SnippetsController extends AppController {
 			$this->Snippet->create();
 			if ($this->Snippet->saveAll($this->request->data)) {
 				$this->Session->setFlash(__('The snippet has been saved'));
+
+				if ($this->request->data['Snippet']['fetch_remote'] == 1){
+					$this->redirect(array('action' => 'after_remote', $this->Snippet->id));
+				}
+
+				$this->request->data['Snippet']['user_id'] = $this->Auth->user('id');
+				debug ($this->request->data);
+				die();
+
+
 				$this->redirect(array('action' => 'index'));
 			}
 			else {
 				$this->Session->setFlash(__('The snippet could not be saved. Please, try again.'));
 			}
 		}
+
+		foreach (array('url', 'image', 'title') as $getParam){
+			if (!empty($_GET[$getParam])){
+				$this->request->data['FromRemote'][$getParam] = $_GET[$getParam];
+			}
+		}
+
+		if (!empty($this->request->data['FromRemote'])){
+			$this->layout = 'remote';
+		}
+
 		$users = $this->Snippet->User->find('list');
 		$tags = $this->Snippet->Tag->find('list');
 		$this->set(compact('users', 'tags'));
+	}
+
+	public function after_remote($snippetId){
+		$this->set(compact('snippetId'));
+		$this->layout = 'remote';
 	}
 
 /**

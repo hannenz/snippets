@@ -21,22 +21,15 @@ class Snippet extends AppModel {
 		'title' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'url' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+			// 'unique' => array(
+			// 	'rule' => 'isUnique'
+			// )
 		),
 	);
 
@@ -99,7 +92,7 @@ class Snippet extends AppModel {
 				$tag_ids[] = $tag_id;
 			}
 
-			$this->data['Tag']['Tag'] = array_merge($tag_ids, $this->data['Tag']['Tag']);
+			$this->data['Tag']['Tag'] = array_merge($tag_ids, (array)$this->data['Tag']['Tag']);
 		}
 
 		return true;
