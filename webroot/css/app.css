@@ -24,8 +24,10 @@ body.busy .busy-overlay {
 }
 
 .page {
+	padding:3em 1.5em 1.5em 1.5em;
 	background:#fff;
 	box-shadow:0 0 15px rgba(25, 25, 25, 0.6);
+	min-height:1100px;
 }
 
 .content {
@@ -89,4 +91,16 @@ body.busy .busy-overlay {
 
 .disabled {
 	display:none;
+}
+
+label {
+	font-family:sans;
+	font-size:11px;	
+	color:#88898a;
+	display:block;
+}
+
+.favorites, .favorites li {
+	list-style-type:none;
+	margin-bottom:1.5em;
 }

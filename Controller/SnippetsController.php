@@ -99,14 +99,9 @@ class SnippetsController extends AppController {
 			if ($this->Snippet->saveAll($this->request->data)) {
 				$this->Session->setFlash(__('The snippet has been saved'));
 
-				if ($this->request->data['Snippet']['fetch_remote'] == 1){
+				if (isset($this->request->data['Snippet']['fetch_remote']) && $this->request->data['Snippet']['fetch_remote'] == 1){
 					$this->redirect(array('action' => 'after_remote', $this->Snippet->id));
 				}
-
-				$this->request->data['Snippet']['user_id'] = $this->Auth->user('id');
-				debug ($this->request->data);
-				die();
-
 
 				$this->redirect(array('action' => 'index'));
 			}
@@ -124,6 +119,8 @@ class SnippetsController extends AppController {
 		if (!empty($this->request->data['FromRemote'])){
 			$this->layout = 'remote';
 		}
+
+		debug ($this->request->data['FromRemote']);
 
 		$users = $this->Snippet->User->find('list');
 		$tags = $this->Snippet->Tag->find('list');
@@ -167,23 +164,50 @@ class SnippetsController extends AppController {
 		$this->set(compact('users', 'tags'));
 	}
 
-	public function starr($id){
-		$this->Snippet->id = $id;
+	public function starr($snippet_id){
+		$this->Snippet->id = $snippet_id;
 		if (!$this->Snippet->exists()) {
 			throw new NotFoundException(__('Invalid snippet'));
 		}
 
-		if ($this->activeUser['User']['id']){
-			$query = sprintf('INSERT into `snippets_users` (snippet_id, user_id) VALUES (%u, %u)', $id, $this->activeUser['User']['id']);
-			$this->Snippet->query($query);
+		$user_id = $this->activeUser['User']['id'];
+
+		$query = sprintf('SELECT * FROM `snippets_users` WHERE `snippet_id`=%u AND `user_id`=%u', $snippet_id, $user_id);
+		$result = $this->Snippet->query($query);
+
+		if (empty($result)){
+
+			if ($this->activeUser['User']['id']){
+				$query = sprintf('INSERT into `snippets_users` (snippet_id, user_id) VALUES (%u, %u)', $snippet_id, $this->activeUser['User']['id']);
+				$this->Snippet->query($query);
+			}
+
+			$this->Snippet->User->contain(array('Favorite'));
+			$user = $this->Snippet->User->read(null, $this->activeUser['User']['id']);
+			$this->Session->write('User',  $user);
+			$this->activeUser = $user;
+
+			$this->Session->setFlash('Der Schnipsel wurde zu deinen Favoriten hinzugefügt');
 		}
-
-		$this->Snippet->User->contain(array('Favorite'));
-		$user = $this->Snippet->User->read(null, $this->activeUser['User']['id']);
-		$this->Session->write('activeUser.Favorite',  $user['Favorite']);
-
+		else {
+			$this->Session->setFlash('Dieser Schnipsel befindet sich bereits in deinen Favoriten');
+		}
 		$this->redirect(array('action' => 'index'));
 
+	}
+
+	public function recommend($snippet_id){
+		$this->Snippet->id = $snippet_id;
+		if (!$this->Snippet->exists()){
+			throw new NotFoundException(__('Invalid Snippet'));
+		}
+
+		if ($this->request->is('post')){
+
+		}
+
+		$users = $this->Snippet->User->find('list');
+		$this->set(compact('users'));
 	}
 
 /**
@@ -202,11 +226,24 @@ class SnippetsController extends AppController {
 		if (!$this->Snippet->exists()) {
 			throw new NotFoundException(__('Invalid snippet'));
 		}
-		if ($this->Snippet->delete()) {
-			$this->Session->setFlash(__('Snippet has been deleted'));
-			$this->redirect(array('action' => 'index'));
+		$snippet = $this->Snippet->read();
+		if ($snippet['Snippet']['user_id'] == $this->activeUser['User']['id']){
+			if ($this->Snippet->delete()) {
+				$this->Session->setFlash('Schnipsel wurde gelöscht');
+			}
+			else {
+				$this->Session->setFlash('Schnipsel konnte nicht gelöscht werden');
+			}
 		}
-		$this->Session->setFlash(__('Snippet could not been deleted'));
+		else {
+			$this->Session->setFlash('Du kannstr nur deine eigenen Schnipsel löschen (Wo kömen wir denn da hin??!)');
+		}
+
+		$this->Snippet->User->contain(array('Favorite'));
+		$user = $this->Snippet->User->read(null, $this->activeUser['User']['id']);
+		$this->Session->write('User',  $user);
+		$this->activeUser = $user;
+
 		$this->redirect(array('action' => 'index'));
 	}
 }

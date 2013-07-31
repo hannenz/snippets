@@ -12,6 +12,11 @@
 				<?php echo $this->Html->link($snippet['Snippet']['url'], $snippet['Snippet']['url'], array('target' => '_blank'));?>
 			</div>
 			<div class="snippet-meta">
+				<?php if (!empty($snippet['Snippet']['attachment'])):?>
+					<span class="snippet-meta-attachment">
+						<?php echo $this->Html->link(basename($snippet['Snippet']['attachment']), $snippet['Snippet']['attachment']); ?>
+					</span>
+				<?php endif ; ?>
 				<span class="snippet-meta-user"><?php echo $snippet['User']['name']; ?></span><br>
 				<span class="snippet-meta-date"><?php echo $this->Time->nice($snippet['Snippet']['created']);?></span><br>
 				<div class="snippet-meta-tags">
@@ -24,11 +29,16 @@
 				</div>
 			</div>
 			<div class="snippet-actions">
-				<ul class="button-group">
+				<ul class="radius button-group">
+					<li><?php echo $this->Html->link('<i class="icon-caret-left"></i> Zurück', array('action' => 'index'), array('class' => 'button', 'escape' => false)); ?></li>
 					<li><?php echo $this->Html->link('<i class="icon-share"></i> Empfehlen', array('action' => 'recommend', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false));?></li>
-					<li><?php echo $this->Html->link('<i class="icon-edit"></i> Bearbeiten', array('action' => 'edit', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false)); ?></li>
-					<li><?php echo $this->Form->postLink('<i class="icon-remove"></i> Löschen', array('action' => 'delete', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false), 'Bist du sicher, dass du diesen Schnipsel löschen willst?'); ?></li>
-					<li><?php echo $this->Html->link('<i class="icon-star"></i> Merken', array('action' => 'starr', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false)); ?></li>
+					<?php if ($activeUser['User']['id'] == $snippet['Snippet']['user_id']):?>
+						<li><?php echo $this->Html->link('<i class="icon-edit"></i> Bearbeiten', array('action' => 'edit', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false)); ?></li>
+						<li><?php echo $this->Form->postLink('<i class="icon-remove"></i> Löschen', array('action' => 'delete', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false), 'Bist du sicher, dass du diesen Schnipsel löschen willst?'); ?></li>
+					<?php endif ?>
+					<?php if (!in_array($snippet['Snippet']['id'], Set::extract('/Favorite/id', $activeUser))): ?>
+						<li><?php echo $this->Html->link('<i class="icon-star"></i> Merken', array('action' => 'starr', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false)); ?></li>
+					<?php endif ?>
 				</ul>
 			</div>
 			<?php

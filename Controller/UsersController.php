@@ -24,7 +24,7 @@ class UsersController extends AppController {
 				$this->redirect($this->Auth->redirect());
 			}
 			else {
-				$this->Session->setFlash('Ungültiger Benutzername oder Passwort');
+				$this->Session->setFlash('Ungültiger Benutzername oder Passwort', 'flash', array('type' => 'alert'), 'auth');
 			}
 		}
 	}

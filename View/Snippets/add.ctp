@@ -19,8 +19,7 @@
 					));
 					echo $this->Form->input('url', array(
 						'label' => 'URL (Linkadresse)',
-						'type' => 'hidden',
-						'readonly' => 'readonly',
+						'type' => 'text',
 						'value' => !empty($this->request->data['FromRemote']['url']) ? $this->request->data['FromRemote']['url'] : ''
 					));
 				?>

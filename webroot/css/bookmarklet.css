@@ -1,5 +1,5 @@
 #snippets-bookmarklet-image-select {
-	background:#000;
+	background:#fff;
 	padding:10px;
 	width:100%;
 	z-index:32767;
@@ -7,6 +7,7 @@
 	position:fixed;
 	top:0;
 	left:0;
+	border-bottom:2px solid #898a8b;
 }
 
 .snippets-bookmarklet-image {

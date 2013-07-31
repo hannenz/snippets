@@ -120,6 +120,12 @@ class Snippet extends AppModel {
 		return true;
 	}
 
+	public function beforeDelete($cascade = true){
+		$query = sprintf('DELETE FROM `snippets_users` WHERE `snippet_id`=%u', $this->data['Snippet']['id']);
+		$this->query($query);
+		return true;
+	}
+
 /*
 * Generates a unique filename
 *

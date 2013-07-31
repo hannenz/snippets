@@ -1,27 +1,38 @@
 <div class="snippets form">
-<?php echo $this->Form->create('Snippet'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit Snippet'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('user_id');
-		echo $this->Form->input('title');
-		echo $this->Form->input('description');
-		echo $this->Form->input('url');
-		echo $this->Form->input('Tag');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Snippet.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Snippet.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Snippets'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Tags'), array('controller' => 'tags', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Tag'), array('controller' => 'tags', 'action' => 'add')); ?> </li>
-	</ul>
+	<?php echo $this->Form->create('Snippet'); ?>
+	<div class="row">
+		<div class="three columns">
+			<?php echo $this->Html->image($this->request->data['Snippet']['image']); ?>
+		</div>
+		<div class="six columns">
+			<?php
+			echo $this->Form->input('id');
+			echo $this->Form->input('user_id', array(
+				'type' => 'hidden'
+			));
+			echo $this->Form->input('title', array(
+				'label' => 'Titel'
+			));
+			echo $this->Form->input('description', array(
+				'label' => 'Beschreibung'
+			));
+			echo $this->Form->input('url', array(
+				'label' => 'URL'
+			));
+			?>
+		</div>
+		<div class="three columns">
+			<?php
+			echo $this->Form->input('Tag', array(
+				'label' => 'Tags (aus bestehenden Tags auswählen)'
+			));
+			echo $this->Form->input('tags', array(
+				'type' => 'text',
+				'label' => 'Oder neue Tags eingeben (mehrere durch Leerzeichen getrennt)'
+			));
+			?>
+			<button class="button" type="submit">Speichern</button>
+		</div>
+	</div>
+	<?php echo $this->Form->end(); ?>
 </div>

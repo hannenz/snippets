@@ -35,7 +35,6 @@
 				'app.js'
 			)
 		);
-
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
@@ -43,77 +42,85 @@
 </head>
 <body>
 	<div class="busy-overlay"></div>
-	<?php $userId = $this->Session->read('Auth.User.id');?>
-	<div class="page row">
-		<div class="xfixed">
-			<nav class="top-bar">
-				<ul>
-					<li class="name">
-						<a href="/"><i class="icon-cut"></i> Snippets</a>
-					</li>
-					<li class="toggle-topbar"><a href="#"></a></li>
-				</ul>
-				<section>
-					<ul class="left">
-						<li class="divider"></li>
-						<?php if ($userId): ?>
-							<li>
-								<?php echo $this->Html->link('Meine Snippets', array('controller' => 'snippets', 'action' => 'index', 'user_id' => $userId)); ?>
-							</li>
-							<li>
-								<?php echo $this->Html->link('<i class="icon-plus"></i> Neues Snippet', array('controller' => 'snippets', 'action' => 'add'), array('escape' => false));?>
-							</li>
-							<li>
-								<?php echo $this->Html->link('<i class="icon-bookmark"></i> Bookmarklet', array('controller' => 'pages', 'action' => 'display', 'get_bookmarklet'), array('escape' => false)); ?>
-							</li>
-						<?php endif ?>
-					</ul>
-					<ul class="right">
-						<li class="divider"></li>
-						<?php if ($userId):?>
-							<li class="has-dropdown">
-								<?php echo $this->Html->link($this->Session->read('Auth.User.name'), '#'); ?>
-								<ul class="dropdown">
-									<li><?php echo $this->Html->link('Mein Profil', '#'); ?></li>
-									<li><?php echo $this->Html->link('Abmelden', array('controller' => 'users', 'action' => 'logout'));?></li>
-								</ul>
-							</li>
-						<?php else: ?>
-							<li><?php echo $this->Html->link('Anmelden', array('controller' => 'users', 'action' => 'login')); ?></li>
-						<?php endif ?>
-					</ul>
-				</section>
-			</nav>
-		</div>
 
-		<header>
-		</header>
-		<div class="row">
-			<div class="nine columns">
-				<div class="content">
-					<?php echo $this->Session->flash(); ?>
-					<?php echo $this->fetch('content'); ?>
-				</div>
-			</div>
-			<div class="three columns">
-				<?php if (!empty($tagcloudTags)):?>
-				<aside>
-					<h2>Tags</h2>
-					 <?php echo $this->Tagcloud->word_cloud($tagcloudTags);?>
-				</aside>
-				<?php endif ?>
-				<?php if ($userId && count($activeUser['Favorite']) > 0):?>
-					<aside>
-						<h2>Favoriten</h2>
+			<?php $userId = $this->Session->read('Auth.User.id');?>
+				<div class="fixed">
+					<nav class="top-bar">
 						<ul>
-						<?php foreach ($activeUser['Favorite'] as $fav):?>
-							<li><?php echo $this->Html->link($fav['title'], array('controller' => 'snippets', 'action' => 'view', $fav['id'])); ?></li>
-						<?php endforeach ?>
+							<li class="name">
+								<a href="/"><i class="icon-cut"></i> Snippets</a>
+							</li>
+							<li class="toggle-topbar"><a href="#"></a></li>
 						</ul>
-					</aside>
-				<?php endif ?>
-		<footer>
-		</footer>
+						<section>
+							<ul class="left">
+								<li class="divider"></li>
+								<?php if ($userId): ?>
+									<li>
+										<?php echo $this->Html->link('Meine Snippets', array('controller' => 'snippets', 'action' => 'index', 'user_id' => $userId)); ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="icon-plus"></i> Neues Snippet', array('controller' => 'snippets', 'action' => 'add'), array('escape' => false));?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="icon-bookmark"></i> Bookmarklet', array('controller' => 'pages', 'action' => 'display', 'get_bookmarklet'), array('escape' => false)); ?>
+									</li>
+								<?php endif ?>
+							</ul>
+							<ul class="right">
+								<li class="divider"></li>
+								<?php if ($userId):?>
+									<li class="has-dropdown">
+										<?php echo $this->Html->link($this->Session->read('Auth.User.name'), '#'); ?>
+										<ul class="dropdown">
+											<li><?php echo $this->Html->link('Mein Profil', '#'); ?></li>
+											<li><?php echo $this->Html->link('Abmelden', array('controller' => 'users', 'action' => 'logout'));?></li>
+										</ul>
+									</li>
+								<?php else: ?>
+									<li><?php echo $this->Html->link('Anmelden', array('controller' => 'users', 'action' => 'login')); ?></li>
+								<?php endif ?>
+							</ul>
+						</section>
+					</nav>
+				</div>
+
+			<div class="page row">
+				<div class="row">
+					<div class="nine columns">
+						<div class="content">
+							<?php echo $this->Session->flash(); ?>
+							<?php echo $this->fetch('content'); ?>
+						</div>
+					</div>
+					<div class="three columns">
+						<?php if (!empty($tagcloudTags)):?>
+						<aside>
+							<h4>Tags</h4>
+							 <?php echo $this->Tagcloud->word_cloud($tagcloudTags);?>
+						</aside>
+						<?php endif ?>
+						<?php if ($userId && count($activeUser['Favorite']) > 0):?>
+							<aside>
+								<h4>Meine Favoriten</h4>
+								<ul class="favorites">
+								<?php foreach ($activeUser['Favorite'] as $fav):?>
+									<li>
+										<div class="row">
+											<div class="three columns">
+												<?php echo $this->Html->image($fav['image']); ?>
+											</div>
+											<div class="nine columns">
+												<?php echo $this->Html->link($fav['title'], array('controller' => 'snippets', 'action' => 'view', $fav['id'])); ?>
+											</div>
+										</div>
+									</li>
+								<?php endforeach ?>
+								</ul>
+							</aside>
+						<?php endif ?>
+				<footer>
+				</footer>
 	</div>
 	<?php #echo $this->element('sql_dump'); ?>
 </body>

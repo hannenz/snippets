@@ -9,7 +9,7 @@
 		?>
 	</ul>
 	<?php endif ?>
-	<ul class="snippets-list block-grid four-up">
+	<ul class="snippets-list block-grid four-up mobile-two-up">
 		<?php foreach ($snippets as $snippet): ?>
 			<li>
 				<div class="snippet">
@@ -23,6 +23,11 @@
 					<h4><?php echo $this->Html->link($this->Text->truncate(($snippet['Snippet']['title']), 24), array('controller' => 'snippets', 'action' => 'view', $snippet['Snippet']['id'])) ; ?></h4>
 
 					<div class="snippet-meta">
+						<?php if (!empty($snippet['Snippet']['attachment'])):?>
+							<span class="snippet-meta-has-attachment">
+								<?php echo $snippet['Snippet']['attachment']; ?>
+							</span>
+						<?php endif ; ?>
 						<span class="snippet-meta-user"><?php echo $this->Html->link($snippet['User']['name'], array('controller' => 'snippets', 'action' => 'index', 'user_id' => $snippet['User']['id'])); ?></span><br>
 						<span class="snippet-meta-date"><?php echo $this->Time->niceShort($snippet['Snippet']['created']); ?></span><br>
 						<span class="snippet-meta-n-comments"><?php echo count($snippet['Comment']); ?> Kommentare</span>

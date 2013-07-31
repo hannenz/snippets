@@ -5,6 +5,8 @@ class User extends AppModel {
 		'Containable'
 	);
 
+	public $displayField = 'name';
+
 	public $validate = array(
 		'email' => array(
 			'unique' => array(
