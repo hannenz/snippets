@@ -1,9 +1,9 @@
 <div class="snippets view">
 	<div class="row">
-		<div class="four columns">
+		<div class="large-4 columns">
 			<?php if (!empty($snippet['Snippet']['image'])) echo $this->Html->image($snippet['Snippet']['image']); ?>
 		</div>
-		<div class="eight columns">
+		<div class="large-8 columns">
 			<h3><?php echo $snippet['Snippet']['title']; ?></h3>
 			<div class="snippet-description">
 				<?php echo $snippet['Snippet']['description']; ?>
@@ -17,7 +17,7 @@
 						<?php echo $this->Html->link(basename($snippet['Snippet']['attachment']), $snippet['Snippet']['attachment']); ?>
 					</span>
 				<?php endif ; ?>
-				<span class="snippet-meta-user"><?php echo $snippet['User']['name']; ?></span><br>
+				Von <span class="snippet-meta-user"><?php echo $this->Html->link($snippet['User']['name'], array('action' => 'index', 'user_id' => $snippet['User']['id'])); ?></span> am 
 				<span class="snippet-meta-date"><?php echo $this->Time->nice($snippet['Snippet']['created']);?></span><br>
 				<div class="snippet-meta-tags">
 					<?php
@@ -30,22 +30,24 @@
 			</div>
 			<div class="snippet-actions">
 				<ul class="radius button-group">
-					<li><?php echo $this->Html->link('<i class="icon-caret-left"></i> Zurück', array('action' => 'index'), array('class' => 'button', 'escape' => false)); ?></li>
-					<li><?php echo $this->Html->link('<i class="icon-share"></i> Empfehlen', array('action' => 'recommend', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false));?></li>
+					<li><?php echo $this->Html->link('<i class="icon-share"></i> Empfehlen', array('action' => 'recommend', $snippet['Snippet']['id']), array('class' => 'secondary button', 'escape' => false));?></li>
 					<?php if ($activeUser['User']['id'] == $snippet['Snippet']['user_id']):?>
-						<li><?php echo $this->Html->link('<i class="icon-edit"></i> Bearbeiten', array('action' => 'edit', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false)); ?></li>
-						<li><?php echo $this->Form->postLink('<i class="icon-remove"></i> Löschen', array('action' => 'delete', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false), 'Bist du sicher, dass du diesen Schnipsel löschen willst?'); ?></li>
+						<li><?php echo $this->Html->link('<i class="icon-edit"></i> Bearbeiten', array('action' => 'edit', $snippet['Snippet']['id']), array('class' => 'secondary button', 'escape' => false)); ?></li>
+						<li><?php echo $this->Form->postLink('<i class="icon-remove"></i> Löschen', array('action' => 'delete', $snippet['Snippet']['id']), array('class' => 'secondary button', 'escape' => false), 'Bist du sicher, dass du diesen Schnipsel löschen willst?'); ?></li>
 					<?php endif ?>
 					<?php if (!in_array($snippet['Snippet']['id'], Set::extract('/Favorite/id', $activeUser))): ?>
-						<li><?php echo $this->Html->link('<i class="icon-star"></i> Merken', array('action' => 'starr', $snippet['Snippet']['id']), array('class' => 'button', 'escape' => false)); ?></li>
+						<li><?php echo $this->Html->link('<i class="icon-star"></i> Favorisieren', array('action' => 'starr', $snippet['Snippet']['id']), array('class' => 'secondary button', 'escape' => false)); ?></li>
+					<?php else: ?>
+						<li><?php echo $this->Html->link('<i class="icon-star"></i> Entfavorisieren', array('action' => 'unstarr', $snippet['Snippet']['id']), array('class' => 'secondary button', 'escape' => false)); ?></li>
 					<?php endif ?>
 				</ul>
 			</div>
+			<?php echo $this->Html->link('<i class="icon-caret-left"></i> Zurück', array('action' => 'index'), array('class' => 'secondary radius button', 'escape' => false)); ?>
 			<?php
 			$user = $this->Session->read('Auth.User');
 			$nComments = count($snippet['Comment']);
 			?>
-			<h4><?php echo $nComments; ?> Kommentare</h4>
+			<h4><?php echo ($nComments == 0) ? 'Noch keine' : $nComments; ?> Kommentare</h4>
 			<?php if ($nComments > 0):?>
 				<section class="snippet-comments">
 					<?php foreach ($snippet['Comment'] as $comment):?>
@@ -67,7 +69,7 @@
 				echo $this->Form->input('snippet_id', array('type' => 'hidden', 'value' => $snippet['Snippet']['id']));
 				echo $this->Form->input('user_id', array('type' => 'hidden', 'value' => $this->Session->read('Auth.User.id')));
 				echo $this->Form->input('body');
-				echo $this->Form->submit('Kommentar absenden', array('class' => 'primary button'));
+				echo $this->Form->submit('Kommentar absenden', array('class' => 'secondary radius button'));
 				echo $this->Form->end();
 			}
 			else {

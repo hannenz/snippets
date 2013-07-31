@@ -1,0 +1,26 @@
+@function emCalc($pxWidth) {
+  @return $pxWidth / 16px * 1em;
+}
+
+$primary-color : #2795B6;
+$secondary-color: #89B627;
+
+$button-tny:emCalc(2px);
+$button-sml:emCalc(4px);
+$button-med:emCalc(7px);
+$button-lrg:emCalc(11px);
+
+$column-gutter:emCalc(30px);
+
+$block-grid-default-spacing:emCalc(20px);
+
+$body-font-family:"Droid Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$header-font-family:"Droid Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$paragraph-font-family:"Droid Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+
+$base-font-size:14px;
+$small-font-size:80%;
+
+$topbar-margin-bottom:0;
+
+$row-width:emCalc(1280px);

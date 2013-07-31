@@ -9,7 +9,7 @@ class UsersController extends AppController {
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('add', 'delete');
+		$this->Auth->allow('add');
 	}
 
 	public function login(){
@@ -21,6 +21,14 @@ class UsersController extends AppController {
 				$this->User->contain(array('Snippet', 'Favorite'));
 				$this->Session->write('User', $this->User->read());
 
+
+				if ($this->request->data['User']['rememberme'] == 1) {
+					$cookieTime = "12 months"; // You can do e.g: 1 week, 17 weeks, 14 days
+					unset($this->request->data['User']['rememberme']);
+					$this->request->data['User']['password'] = $this->Auth->password($this->request->data['User']['password']);
+					$this->Cookie->write('rememberMe', $this->request->data['User'], true, $cookieTime);
+				}
+
 				$this->redirect($this->Auth->redirect());
 			}
 			else {
@@ -30,6 +38,8 @@ class UsersController extends AppController {
 	}
 
 	public function logout(){
+		$this->Session->setFlash('Du hast dich abgemeldet', 'flash', array('type' => ''));
+		$this->Cookie->delete('rememberMe');
 		$this->redirect($this->Auth->logout());
 	}
 
@@ -88,11 +98,21 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
+			if (empty($this->request->data['User']['password_confirm'])){
+				unset($this->request->data['User']['password']);
+				unset($this->request->data['User']['password_confirm']);
+			}
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->Session->setFlash('Profil wurde gespeichert', 'flash', array('type' => 'success'));
+
+				$this->User->contain(array('Snippet', 'Favorite'));
+				$user = $this->User->read();
+				$this->Session->write('User', $user);
+
+				$this->redirect(array('controller' => 'snippets', 'action' => 'index'));
+			}
+			else {
+				$this->Session->setFlash('Profil konnte nicht gespeichert werden. Bitte prüfe das Formular und versuche es noch einmal', 'flash', array('type' => 'alert'));
 			}
 		} else {
 			$this->request->data = $this->User->read(null, $id);

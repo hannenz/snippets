@@ -1,8 +1,15 @@
+$.zepto.scrollTop = function (pixels) {
+    this[0].scrollTop = pixels;
+};
+
 $(function(){
+
+	$(document).foundation();
 
 	var $body = $('body');
 
-	$('.paginator-next a').bind('click', _onPaginatorNextClicked);
+	$('.more-snippets a').live('click', _onPaginatorNextClicked);
+	$snippetsList = $('.snippets-list');
 
 	function _onPaginatorNextClicked(event){
 
@@ -11,16 +18,22 @@ $(function(){
 		var url = $(this).attr('href');
 		$body.addClass('busy');
 		$.get(url, function(result){
+
 			var $result = $(result);
-			var $newSnippets = $result.find('.snippets-list').children();
-			$('.snippets-list').append($newSnippets);
+
+			$('.more-snippets').replaceWith($result.find('.snippets-list > li'));
+
+			var y = $(window).scrollTop();
+			console.log(y);
+			$body[0].scrollTopy = y + 150;
+
 			$body.removeClass('busy');
 
-			$('.paginator-next a').replaceWith($result.find('.paginator-next a'));
-			$('.paginator-next a').bind('click', _onPaginatorNextClicked);
+
+
+
 		});
 
 		return false;
 	}
-
 });

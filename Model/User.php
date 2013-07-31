@@ -10,7 +10,7 @@ class User extends AppModel {
 	public $validate = array(
 		'email' => array(
 			'unique' => array(
-				'rule' => 'isUnique'
+				'rule' => 'isUnique',
 			),
 			'notEmpty' => array(
 				'rule' => 'notEmpty'
@@ -22,17 +22,20 @@ class User extends AppModel {
 		'password' => array(
 			'required' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Bitte geben Sie ein Passwort ein'
+				'message' => 'Bitte geben Sie ein Passwort ein',
 			),
 			'valid' => array(
 				'rule' => '/.{6,}/',
-				'message' => 'Das Password muss aus mindestens 6 Zeichen bestehen'
+				'message' => 'Das Password muss aus mindestens 6 Zeichen bestehen',
 			),
 			'match' => array(
 				'rule' => 'matchConfirm',
-				'message' => 'Die beiden eingegeben Passwörter stimmen nicht überein'
+				'message' => 'Die beiden eingegeben Passwörter stimmen nicht überein',
 
 			)
+		),
+		'name' => array(
+			'rule' => 'notEmpty'
 		)
 	);
 

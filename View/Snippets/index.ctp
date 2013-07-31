@@ -1,15 +1,21 @@
 <div class="snippets index">
-	<?php if (!empty($filters)):?>
-	<ul class="active-filters">
-		<?php foreach ($filters as $filter){
-			echo $this->Html->tag('li', 
-				$this->Html->tag('span', $filter, array('class' => 'secondary label'))
-			);
-		}
-		?>
-	</ul>
-	<?php endif ?>
-	<ul class="snippets-list block-grid four-up mobile-two-up">
+	<div class="row">
+		<div class="large-4 columns">
+			<h4>Blackboard</h4>
+		</div>
+		<div class="large-8 columns">
+			<?php if (!empty($filters)):?>
+				<div class="active-filters">
+				<span>Aktive Filter:</span>  
+				<?php foreach ($filters as $filter){
+					echo $this->Html->tag('span', $filter, array('class' => 'secondary label'));
+				}
+				?>
+				</div>
+			<?php endif ?>
+		</div>
+	</div>
+	<ul class="snippets-list large-block-grid-3 small-block-grid-2">
 		<?php foreach ($snippets as $snippet): ?>
 			<li>
 				<div class="snippet">
@@ -20,7 +26,7 @@
 						}
 						?>
 					</div>
-					<h4><?php echo $this->Html->link($this->Text->truncate(($snippet['Snippet']['title']), 24), array('controller' => 'snippets', 'action' => 'view', $snippet['Snippet']['id'])) ; ?></h4>
+					<h4><?php echo $this->Html->link($this->Text->truncate(($snippet['Snippet']['title']), 42, array('exact' => false, 'ellipsis' => '&hellip;')), array('controller' => 'snippets', 'action' => 'view', $snippet['Snippet']['id'])) ; ?></h4>
 
 					<div class="snippet-meta">
 						<?php if (!empty($snippet['Snippet']['attachment'])):?>
@@ -44,7 +50,14 @@
 				</div>
 			</li>
 		<?php endforeach ?>
-
+		<?php if ($this->Paginator->hasNext()):?>
+			<li class="more-snippets">
+				<div class="snippet">
+					<?php
+					echo $this->Paginator->next('Noch mehr Schnipsel anzeigen');
+					?>
+				</div>
+			</li>
+		<?php endif; ?>
 	</ul>
-	<?php echo $this->Paginator->next('Weitere Snippets', array('class' => 'paginator-next secondary button')); ?>
 </div>

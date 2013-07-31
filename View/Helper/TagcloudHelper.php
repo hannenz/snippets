@@ -8,7 +8,7 @@
 class TagcloudHelper extends Helper {
     /* font sizes */
 
-    var $minSize = 10;
+    var $minSize = 11;
     var $maxSize = 50;
 
     /* show frequencies */

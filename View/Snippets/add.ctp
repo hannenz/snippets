@@ -6,6 +6,9 @@
 			if (!empty($this->request->data['FromRemote']['image'])){
 				echo $this->Html->image($this->request->data['FromRemote']['image']);
 			}
+			else if (!empty($this->request->data['FromRemote'])) {
+				echo $this->Html->para(null, $this->Html->tag('em', '[ Kein Bild ]'));
+			}
 			?>
 		</div>
 		<div class="six columns">

@@ -34,6 +34,7 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 	public $components = array(
 		'Session',
+		'Cookie',
 		'Auth' => array(
 			'authenticate' =>  array(
 				'Form' => array(
@@ -53,10 +54,33 @@ class AppController extends Controller {
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view');
+		$this->Auth->allow('index', 'view', 'display');
+
+		$this->Cookie->httpOnly = true;
+
+		if (!$this->Auth->loggedIn() && $this->Cookie->read('rememberMe')){
+			$cookie = $this->Cookie->read('rememberMe');
+			$this->loadModel('User');
+
+			$user = $this->User->find('first', array(
+				'conditions' => array(
+					'User.email' => $cookie['email'],
+					'User.password' => $cookie['password']
+				)
+			));
+
+			if ($user && !$this->Auth->login($user['User'])){
+				$this->redirect('/users/logout');
+			}
+
+			$this->User->id = $this->Auth->user('id');
+			$this->User->contain(array('Snippet', 'Favorite'));
+			$this->Session->write('User', $this->User->read());
+		}
 
 		$this->activeUser = $this->Session->read('User');
 		$this->set('activeUser', $this->activeUser);
 
+		$this->set('title_for_layout', 'Blackboard');
 	}
 }

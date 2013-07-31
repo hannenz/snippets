@@ -19,4 +19,5 @@
 ?>
 <?php echo $this->fetch('content'); ?>
 
-This email was sent using the CakePHP Framework, http://cakephp.org.
+------------------------------------------------------------------------------
+Blackboard | <?php echo $_SERVER['SERVER_NAME']; ?>

@@ -43,7 +43,7 @@
 			var count = 0;
 			$images.each(function(i, el){
 				var image = new Image();
-				image.src = $(el).attr('src');
+				image.src = $(el)[0].src;
 
 				image.onload = function(){
 					if (image.height > 50 && image.width > 50){
@@ -84,7 +84,6 @@
 				if (!imageURL.match(/^http/)){
 					imageURL = window.location.href + imageURL;
 				}
-				alert (imageURL);
 				var windowURL = 'http://' + domain + '/snippets/add?url=' + encodeURIComponent(window.location.href) + '&image=' + encodeURIComponent(imageURL) + '&title=' + encodeURI(document.title);
 
 				window.open(windowURL, "Snippets", "width=400,height=700,scrollbars=yes");

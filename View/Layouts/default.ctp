@@ -21,85 +21,111 @@
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
-	<title>Snippets</title>
+	<title><?php echo $title_for_layout; ?></title>
+
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 	<?php
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css(array(
-			'foundation/stylesheets/foundation.min.css',
+			'normalize.css',
 			'font-awesome.min.css',
-			'app.css'
+			'app.css',
 		));
 		echo $this->Html->script(array(
-				'http://code.jquery.com/jquery-1.10.2.min.js',
+				'vendor/custom.modernizr.js',
+		));
+		echo $this->Html->script(array(
+				'foundation/foundation.js',
+				'foundation/foundation.topbar.js',
 				'app.js'
-			)
+			),
+			array('block' => 'bottomscripts')
 		);
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+
 </head>
 <body>
+	<?php $userId = $this->Session->read('Auth.User.id');?>
 	<div class="busy-overlay"></div>
-
-			<?php $userId = $this->Session->read('Auth.User.id');?>
-				<div class="fixed">
-					<nav class="top-bar">
-						<ul>
-							<li class="name">
-								<a href="/"><i class="icon-cut"></i> Snippets</a>
-							</li>
-							<li class="toggle-topbar"><a href="#"></a></li>
-						</ul>
-						<section>
-							<ul class="left">
-								<li class="divider"></li>
-								<?php if ($userId): ?>
-									<li>
-										<?php echo $this->Html->link('Meine Snippets', array('controller' => 'snippets', 'action' => 'index', 'user_id' => $userId)); ?>
-									</li>
-									<li>
-										<?php echo $this->Html->link('<i class="icon-plus"></i> Neues Snippet', array('controller' => 'snippets', 'action' => 'add'), array('escape' => false));?>
-									</li>
-									<li>
-										<?php echo $this->Html->link('<i class="icon-bookmark"></i> Bookmarklet', array('controller' => 'pages', 'action' => 'display', 'get_bookmarklet'), array('escape' => false)); ?>
-									</li>
-								<?php endif ?>
+	<div class="contain-to-grid sticky">
+		<nav class="top-bar" data-options="is_hover:true; sticky:true">
+			<ul class="title-area">
+				<li class="name">
+					<a href="/"><i class="icon-cut"></i>Blackboard</a>
+				</li>
+				<li class="toggle-topbar menu-icon"><a href="#"><span>Menü</span></a></li>
+			</ul>
+			<section class="top-bar-section">
+				<ul class="left">
+					<li class="divider"></li>
+					<?php if ($userId): ?>
+						<li>
+							<?php echo $this->Html->link('Meine Snippets', array('controller' => 'snippets', 'action' => 'index', 'user_id' => $userId)); ?>
+						</li>
+						<li>
+							<?php echo $this->Html->link('<i class="icon-plus"></i> Neues Snippet', array('controller' => 'snippets', 'action' => 'add'), array('escape' => false));?>
+						</li>
+						<li>
+							<?php echo $this->Html->link('<i class="icon-bookmark"></i> Bookmarklet', array('controller' => 'pages', 'action' => 'display', 'get_bookmarklet'), array('escape' => false)); ?>
+						</li>
+					<?php endif ?>
+				</ul>
+				<ul class="right">
+					<li class="divider"></li>
+					<li><?php echo $this->Html->link('About', array('controller' => 'pages', 'action' => 'display', 'about'));?></li>
+					<?php if ($userId):?>
+						<li class="has-dropdown">
+							<?php echo $this->Html->link($activeUser['User']['name'], '#'); ?>
+							<ul class="dropdown">
+								<li><?php echo $this->Html->link('<i class="icon-user"></i> Mein Profil', array('controller' => 'users', 'action' => 'edit', $userId), array('escape' => false)); ?></li>
+								<li><?php echo $this->Html->link('<i class="icon-power-off"></i> Abmelden', array('controller' => 'users', 'action' => 'logout'), array('escape' => false));?></li>
 							</ul>
-							<ul class="right">
-								<li class="divider"></li>
-								<?php if ($userId):?>
-									<li class="has-dropdown">
-										<?php echo $this->Html->link($this->Session->read('Auth.User.name'), '#'); ?>
-										<ul class="dropdown">
-											<li><?php echo $this->Html->link('Mein Profil', '#'); ?></li>
-											<li><?php echo $this->Html->link('Abmelden', array('controller' => 'users', 'action' => 'logout'));?></li>
-										</ul>
-									</li>
-								<?php else: ?>
-									<li><?php echo $this->Html->link('Anmelden', array('controller' => 'users', 'action' => 'login')); ?></li>
-								<?php endif ?>
-							</ul>
-						</section>
-					</nav>
-				</div>
+						</li>
+					<?php else: ?>
+						<li><?php echo $this->Html->link('Registrieren', array('controller' => 'users', 'action' => 'add')); ?></li>
+						<li><?php echo $this->Html->link('Anmelden', array('controller' => 'users', 'action' => 'login')); ?></li>
+					<?php endif ?>
+				</ul>
+			</section>
+		</nav>
+	</div>
+	<div class="row">
+		<div class="twelve columns">
 
-			<div class="page row">
+			<div class="page">
 				<div class="row">
-					<div class="nine columns">
+					<div class="large-9 columns">
 						<div class="content">
 							<?php echo $this->Session->flash(); ?>
 							<?php echo $this->fetch('content'); ?>
 						</div>
 					</div>
-					<div class="three columns">
+					<div class="large-3 columns sidebar">
 						<?php if (!empty($tagcloudTags)):?>
 						<aside>
 							<h4>Tags</h4>
 							 <?php echo $this->Tagcloud->word_cloud($tagcloudTags);?>
 						</aside>
 						<?php endif ?>
+						<aside>
+							<h4>Suche</h4>
+							<form action="/snippets/index" method="post">
+								<div class="row collapse">
+									<div class="large-9 small-8 columns">
+										<input type="search" name="data[Snippet][query]" />
+									</div>
+									<div class="large-3 small-4 columns">
+										<button type="submit" class="prefix secondary button">Suche</button>
+									</div>
+								</div>
+							</form>
+						</aside>
+
+							</form>
 						<?php if ($userId && count($activeUser['Favorite']) > 0):?>
 							<aside>
 								<h4>Meine Favoriten</h4>
@@ -107,10 +133,10 @@
 								<?php foreach ($activeUser['Favorite'] as $fav):?>
 									<li>
 										<div class="row">
-											<div class="three columns">
+											<div class="large-3 small-3 columns">
 												<?php echo $this->Html->image($fav['image']); ?>
 											</div>
-											<div class="nine columns">
+											<div class="large-9 small-9 columns">
 												<?php echo $this->Html->link($fav['title'], array('controller' => 'snippets', 'action' => 'view', $fav['id'])); ?>
 											</div>
 										</div>
@@ -119,9 +145,25 @@
 								</ul>
 							</aside>
 						<?php endif ?>
-				<footer>
-				</footer>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<?php #echo $this->element('sql_dump'); ?>
+	<footer class="main-footer">
+		<div class="row">
+			<div class="large-12 columns">
+				Blackboard &middot; &copy; 2012&thinsp;&ndash;&thinsp;2013 <?php echo $this->Html->link('Agentur Halma', 'http://agentur-halma.de'); ?> &middot; Built with CakePHP Version <?php echo Configure::version(); ?>
+			</div>
+		</div>
+	</footer>
+	<script>
+	  document.write('<script src=/js/vendor/'
+	    + ('__proto__' in {} ? 'zepto' : 'jquery')
+	    + '.js><\/script>');
+	</script>
+	<?php
+	echo $this->fetch('bottomscripts');
+	?>
 </body>
 </html>

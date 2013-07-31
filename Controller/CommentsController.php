@@ -17,11 +17,11 @@ class CommentsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Comment->create();
 			if ($this->Comment->save($this->request->data)) {
-				$this->Session->setFlash(__('The comment has been saved'));
+				$this->Session->setFlash('Dein Kommentar wurde gespeichert.', 'flash', array('type' => 'success'));
 				$this->redirect(array('controller' => 'snippets', 'action' => 'view', $this->request->data['Comment']['snippet_id']));
 			}
 			else {
-				$this->Session->setFlash(__('The comment could not be saved. Please, try again.'));
+				$this->Session->setFlash('Kommentar konnte nicht gespeichert werden. Bitte prüfe das Formular und versuche es noch einmal', 'flash', array('type' => 'alert'));
 				$this->redirect(array('controller' => 'snippets', 'action' => 'view', $this->request->data['Comment']['snippet_id']));
 			}
 		}
@@ -47,7 +47,7 @@ class CommentsController extends AppController {
 				$this->Session->setFlash(__('The comment has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The comment could not be saved. Please, try again.'));
+				$this->Session->setFlash('Kommentar konnte nicht gespeichert werden. Bitte prüfe das Formular und versuche es noch einmal', 'flash', array('type' => 'alert'));
 			}
 		} else {
 			$this->request->data = $this->Comment->read(null, $id);

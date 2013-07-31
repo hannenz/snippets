@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Snippets Controller
  *
@@ -9,7 +10,6 @@ class SnippetsController extends AppController {
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('add');
 
 		$this->Snippet->Tag->contain(array('Snippet'));
 		$this->Snippet->Tag->recursive = -1;
@@ -32,9 +32,16 @@ class SnippetsController extends AppController {
  */
 	public function index() {
 
+
 		$filters = array();
 		$conditions = array();
 
+		if ($this->request->is('post')){
+			$conditions['OR'] = array(
+				'Snippet.title LIKE' => '%'.$this->request->data['Snippet']['query'].'%',
+				'Snippet.description LIKE' => '%'.$this->request->data['Snippet']['query'].'%'
+			);
+		}
 		if ($this->request->is('ajax')){
 			$this->layout = 'ajax';
 		}
@@ -57,7 +64,7 @@ class SnippetsController extends AppController {
 		}
 
 		$this->paginate = array(
-			'limit' => 8,
+			'limit' => 9,
 			'order' => array('created' => 'desc'),
 			'conditions' => $conditions
 		);
@@ -96,8 +103,11 @@ class SnippetsController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Snippet->create();
+			$this->request->data['Snippet']['user_id'] = $this->activeUser['User']['id'];
 			if ($this->Snippet->saveAll($this->request->data)) {
 				$this->Session->setFlash(__('The snippet has been saved'));
+
+				$this->_notify($this->Snippet->read());
 
 				if (isset($this->request->data['Snippet']['fetch_remote']) && $this->request->data['Snippet']['fetch_remote'] == 1){
 					$this->redirect(array('action' => 'after_remote', $this->Snippet->id));
@@ -119,8 +129,6 @@ class SnippetsController extends AppController {
 		if (!empty($this->request->data['FromRemote'])){
 			$this->layout = 'remote';
 		}
-
-		debug ($this->request->data['FromRemote']);
 
 		$users = $this->Snippet->User->find('list');
 		$tags = $this->Snippet->Tag->find('list');
@@ -182,32 +190,75 @@ class SnippetsController extends AppController {
 				$this->Snippet->query($query);
 			}
 
-			$this->Snippet->User->contain(array('Favorite'));
+			$this->Snippet->User->contain(array('Snippet', 'Favorite'));
 			$user = $this->Snippet->User->read(null, $this->activeUser['User']['id']);
 			$this->Session->write('User',  $user);
 			$this->activeUser = $user;
 
-			$this->Session->setFlash('Der Schnipsel wurde zu deinen Favoriten hinzugefügt');
+			$this->Session->setFlash('Der Schnipsel wurde zu deinen Favoriten hinzugefügt', 'flash', array('type' => 'success'));
 		}
 		else {
-			$this->Session->setFlash('Dieser Schnipsel befindet sich bereits in deinen Favoriten');
+			$this->Session->setFlash('Dieser Schnipsel befindet sich bereits in deinen Favoriten', 'flash');
 		}
 		$this->redirect(array('action' => 'index'));
 
 	}
 
-	public function recommend($snippet_id){
-		$this->Snippet->id = $snippet_id;
+	public function unstarr($id){
+		$this->Snippet->id = $id;
+		if (!$this->Snippet->exists()) {
+			throw new NotFoundException(__('Invalid snippet'));
+		}
+
+		$user_id = $this->activeUser['User']['id'];
+
+		$query = sprintf('DELETE FROM `snippets_users` WHERE `snippet_id`=%u AND `user_id`=%u', $id, $user_id);
+		$this->Snippet->query($query);
+
+		$this->Snippet->User->contain(array('Snippet', 'Favorite'));
+		$user = $this->Snippet->User->read(null, $this->activeUser['User']['id']);
+		$this->Session->write('User',  $user);
+		$this->activeUser = $user;
+
+		$this->redirect(array('action' => 'index'));
+	}
+
+	public function recommend($id = null){
+		if ($id == null && !empty($this->request->data['Snippet']['id'])){
+			$id = $this->request->data['Snippet']['id'];
+		}
+		$this->Snippet->id = $id;
 		if (!$this->Snippet->exists()){
 			throw new NotFoundException(__('Invalid Snippet'));
 		}
+		$snippet = $this->Snippet->read(null, $id);
 
 		if ($this->request->is('post')){
+			$this->Snippet->User->displayField = 'email';
+			$users = $this->Snippet->User->find('list', array('coditions' => array('User.id' => $this->request->data['Snippet']['emails'])));
 
+
+			$Email = new CakeEmail();
+			$Email->config('smtp');
+			$Email->sender($this->activeUser['User']['email']);
+			$Email->to($users);
+			$Email->subject('Empfehlung von '.$this->activeUser['User']['name']);
+			$Email->emailFormat('both');
+			$Email->viewVars(array('snippet' => $snippet, 'sender' => $this->activeUser, 'comment' => $this->request->data['Snippet']['comment']));
+			$Email->template('recommend');
+			$Email->delivery = 'smtp';
+
+			if ($Email->send()){
+				$this->Session->setFlash('Deine Empfehlung wurde versandt', 'flash', array('type' => 'success'));
+			}
+			else {
+				$this->Session->setFlash('Beim Versneden ist ein Fehler aufgetreten', 'flash', array('type' => 'alert'));
+			}
+			$this->redirect(array('action' => 'index'));
 		}
 
 		$users = $this->Snippet->User->find('list');
-		$this->set(compact('users'));
+		$this->set(compact('users', 'snippet'));
 	}
 
 /**
@@ -245,5 +296,25 @@ class SnippetsController extends AppController {
 		$this->activeUser = $user;
 
 		$this->redirect(array('action' => 'index'));
+	}
+
+	private function _notify($snippet){
+		$users = $this->Snippet->User->find('all', array(
+			'conditions' => array(
+				'User.notify_on_new_snippet' => true
+			)
+		));
+		if (count($users) > 0){
+			foreach ($users as $user){
+				$Email = new CakeEmail();
+				$Email->config('smtp');
+				$Email->to($user['User']['email']);
+				$Email->subject('Neuer Schnipsel am Schwarzen Brett');
+				$Email->emailFormat('both');
+				$Email->viewVars(array('snippet' => $snippet, 'user' => $user));
+				$Email->template('notify');
+				$Email->send();
+			}
+		}
 	}
 }
