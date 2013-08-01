@@ -32,7 +32,6 @@ class SnippetsController extends AppController {
  */
 	public function index() {
 
-
 		$filters = array();
 		$conditions = array();
 
@@ -105,7 +104,7 @@ class SnippetsController extends AppController {
 			$this->Snippet->create();
 			$this->request->data['Snippet']['user_id'] = $this->activeUser['User']['id'];
 			if ($this->Snippet->saveAll($this->request->data)) {
-				$this->Session->setFlash(__('The snippet has been saved'));
+				$this->Session->setFlash('Schnipsel wurde gespeichert', 'flash', array('type' => 'success'));
 
 				$this->_notify($this->Snippet->read());
 
@@ -116,7 +115,7 @@ class SnippetsController extends AppController {
 				$this->redirect(array('action' => 'index'));
 			}
 			else {
-				$this->Session->setFlash(__('The snippet could not be saved. Please, try again.'));
+				$this->Session->setFlash('Der Schnipsel konnte nicht gespeichert werden. Bitte prüfe das Formular und versuche es noch einmal', 'flash', array('type' => 'alert'));
 			}
 		}
 
@@ -154,16 +153,16 @@ class SnippetsController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Snippet->save($this->request->data)) {
-				$this->Session->setFlash(__('The snippet has been saved'));
+				$this->Session->setFlash('Der Schnipsel wurde gespeichert', 'flash', array('type' => 'success'));
 				$this->redirect(array('action' => 'index'));
 			}
 			else {
-				$this->Session->setFlash(__('The snippet could not be saved. Please, try again.'));
+				$this->Session->setFlash('Der Schnipsel konnte nicht gespeichert werden. Bitte prüfe das Formular und versuche es noch einmal', 'flash', array('type' => 'alert'));
 			}
 		} else {
 			$this->request->data = $this->Snippet->read(null, $id);
 			if ($this->request->data['Snippet']['user_id'] !== $this->Auth->user('id')){
-				$this->Session->setFlash('Du kannst nur deine eigenen Schnipsel bearbeiten');
+				$this->Session->setFlash('Du kannst nur deine eigenen Schnipsel bearbeiten', 'flash', array('type' => 'alert'));
 				$this->redirect($this->referer());
 			}
 		}
@@ -280,14 +279,14 @@ class SnippetsController extends AppController {
 		$snippet = $this->Snippet->read();
 		if ($snippet['Snippet']['user_id'] == $this->activeUser['User']['id']){
 			if ($this->Snippet->delete()) {
-				$this->Session->setFlash('Schnipsel wurde gelöscht');
+				$this->Session->setFlash('Schnipsel wurde gelöscht', 'flash', array('type' => 'success'));
 			}
 			else {
-				$this->Session->setFlash('Schnipsel konnte nicht gelöscht werden');
+				$this->Session->setFlash('Schnipsel konnte nicht gelöscht werden', 'flash', array('type' => 'alert'));
 			}
 		}
 		else {
-			$this->Session->setFlash('Du kannstr nur deine eigenen Schnipsel löschen (Wo kömen wir denn da hin??!)');
+			$this->Session->setFlash('Du kannst nur deine eigenen Schnipsel löschen (Wo kömen wir denn da hin??!)', 'flash', array('type' => 'alert'));
 		}
 
 		$this->Snippet->User->contain(array('Favorite'));
