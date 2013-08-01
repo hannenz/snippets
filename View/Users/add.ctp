@@ -2,7 +2,7 @@
 	<h2>Registrieren</h2>
 	<div class="row">
 		<div class="large-6 columns">
-			<p>Herzlich Willkommen beim Blackboard, dem <em>Digitalen Schwarzen Brett</em></p>
+			<p>Herzlich Willkommen bei <em>Blackboard</em>, dem <em>Digitalen Schwarzen Brett</em></p>
 			<p>Um selbst Schnipsel ans Brett heften zu können, musst du dich registrieren. Fülle dazu einfach das Formular aus und schon kannst du loslegen. Am besten du holst dir dann auch gleich das <?php echo $this->Html->link('<i class="icon-bookmark"></i> Bookmarklet', array('controller' => 'pages', 'action' => 'display', 'get_bookmarklet'), array('escape' => false)); ?> damit du unterwegs noch schneller und einfacher deine Fundstücke anheften kannst.</p>
 			<p>Bei Fragen oder Problemen wende dich bitte per E-Mail an <?php echo $this->Html->link('j.braun@agentur-halma.de', 'mailto:j.braun@agentur-halma.de'); ?>.
 			</div>

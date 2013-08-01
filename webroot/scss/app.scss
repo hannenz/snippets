@@ -74,6 +74,7 @@ body.busy .busy-overlay {
 	border-radius:3px;
 	box-shadow:0 0 8px rgba(30, 30, 30, 0.3);
 	padding:1em;
+	overflow:hidden;
 }
 
 .snippet h4 {
@@ -108,6 +109,12 @@ body.busy .busy-overlay {
 	padding-top:4px;
 	margin-top:4px;
 	height:1.5em;
+	line-height:1.5em;
+	margin:0.75em 0;
+}
+
+.snippets.view .snippet-meta-tags {
+	height:auto;
 }
 
 .snippet-description {
