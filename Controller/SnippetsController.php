@@ -334,7 +334,6 @@ class SnippetsController extends AppController {
 
 	public function increment_visits($id){
 		if ($this->request->is('ajax')){
-
 			$this->Snippet->id = $id;
 			if (!$this->Snippet->exists()){
 				throw new NotFoundException('Ungültige Schnipsel-Id');
