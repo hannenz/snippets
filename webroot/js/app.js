@@ -36,4 +36,14 @@ $(function(){
 
 		return false;
 	}
+
+	$('#js-snippet-link').bind('click', function(event){
+		var id = $(this).attr('data-snippet-id');
+		$.get('/snippets/increment_visits/' + id, function(response){
+
+			var json = $.parseJSON(response);
+			$('#js-visits').html(json['visits']);
+		});
+
+	});
 });

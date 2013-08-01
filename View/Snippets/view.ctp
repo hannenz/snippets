@@ -9,7 +9,7 @@
 				<?php echo $snippet['Snippet']['description']; ?>
 			</div>
 			<div class="snippet-url">
-				<?php echo $this->Html->link($snippet['Snippet']['url'], $snippet['Snippet']['url'], array('target' => '_blank'));?>
+				<?php echo $this->Html->link($snippet['Snippet']['url'], $snippet['Snippet']['url'], array('target' => '_blank', 'id' => 'js-snippet-link', 'data-snippet-id' => $snippet['Snippet']['id']));?>
 			</div>
 			<div class="snippet-meta">
 				<?php if (!empty($snippet['Snippet']['attachment'])):?>
@@ -27,7 +27,9 @@
 					}
 					?>
 				</div>
+				<div><small><?php printf('%u views, <span id="js-visits">%u</span> visits', $snippet['Snippet']['views'], $snippet['Snippet']['visits']); ?></small></div>
 			</div>
+
 			<div class="snippet-actions">
 				<ul class="radius button-group">
 					<li><?php echo $this->Html->link('<i class="icon-share"></i> Empfehlen', array('action' => 'recommend', $snippet['Snippet']['id']), array('class' => 'secondary button', 'escape' => false));?></li>
