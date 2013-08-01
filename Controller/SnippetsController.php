@@ -158,7 +158,7 @@ class SnippetsController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Snippet->save($this->request->data)) {
 				$this->Session->setFlash('Der Schnipsel wurde gespeichert', 'flash', array('type' => 'success'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'view', $id));
 			}
 			else {
 				$this->Session->setFlash('Der Schnipsel konnte nicht gespeichert werden. Bitte prüfe das Formular und versuche es noch einmal', 'flash', array('type' => 'alert'));
@@ -300,6 +300,18 @@ class SnippetsController extends AppController {
 
 		$this->redirect(array('action' => 'index'));
 	}
+
+	public function remove_file($id, $type){
+		$this->Snippet->id = $id;
+		if (!$this->Snippet->exists()) {
+			throw new NotFoundException(__('Invalid snippet'));
+		}
+		$snippet = $this->Snippet->read();
+		unlink(WWW_ROOT . $snippet['Snippet'][$type]);
+		$this->Snippet->saveField($type, '', false);
+		$this->redirect(array('action' => 'edit', $id));
+	}
+
 
 	private function _notify($snippet){
 		$users = $this->Snippet->User->find('all', array(

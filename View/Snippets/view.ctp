@@ -13,9 +13,9 @@
 			</div>
 			<div class="snippet-meta">
 				<?php if (!empty($snippet['Snippet']['attachment'])):?>
-					<span class="snippet-meta-attachment">
-						<?php echo $this->Html->link(basename($snippet['Snippet']['attachment']), $snippet['Snippet']['attachment']); ?>
-					</span>
+					<div class="snippet-meta-attachment">
+						Anhang: <?php echo $this->Html->link(basename($snippet['Snippet']['attachment']), $snippet['Snippet']['attachment']); ?>
+					</div><br>
 				<?php endif ; ?>
 				Von <span class="snippet-meta-user"><?php echo $this->Html->link($snippet['User']['name'], array('action' => 'index', 'user_id' => $snippet['User']['id'])); ?></span> am 
 				<span class="snippet-meta-date"><?php echo $this->Time->nice($snippet['Snippet']['created']);?></span><br>

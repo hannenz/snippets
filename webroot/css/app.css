@@ -3055,3 +3055,12 @@ div.required label:after {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003232}}
 .about ol {
   margin-left: 1.875em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003236}}
+#TagTag {
+  min-height: 120px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003242}}
+.snippet-comments article footer {
+  margin: 0.75em 0;
+  color: #898a8b; }

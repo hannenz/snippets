@@ -232,3 +232,16 @@ div.required label:after {
 .about ol {
 	margin-left:$column-gutter;
 }
+
+#TagTag {
+	min-height:120px;
+}
+
+.snippet-comments {
+	article {
+		footer {
+			margin:0.75em 0;
+			color:#898a8b;
+		}
+	}
+}

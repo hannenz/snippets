@@ -1,4 +1,5 @@
 <div class="snippets form">
+	<h2>Neuen Schnipsel ans Brett posten</h2>
 	<?php echo $this->Form->create('Snippet', array('action' => 'add', 'type' => 'file')); ?>
 	<div class="row">
 		<div class="three columns">
@@ -44,14 +45,14 @@
 						echo $this->Form->input('attachment_upload', array('type' => 'file'));
 					}
 					echo $this->Form->input('Tag', array(
-						'label' => 'Aus vorhandenden Tags auswählen'
+						'label' => 'Aus vorhandenden Tags auswählen (Mehrfachauswahl mit gedrückter STRG-Taste möglich)'
 					));
 					echo $this->Form->input('tags', array(
 						'type' => 'text',
 						'label' => 'oder neue(n) Tag(s) eingeben (mehrere Tags mit Leerzeichen trennen)'
 					));
 				?>
-				<button class="button" type="submit">Schnipseln</button>
+				<button class="secondary radius button" type="submit">Schnipseln</button>
 		</div>
 	</div>
 	<?php echo $this->Form->end(); ?>

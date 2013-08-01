@@ -20,17 +20,17 @@ class Snippet extends AppModel {
 	public $validate = array(
 		'title' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notempty')
 			),
 		),
 		'url' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notempty')
 			),
-			// 'unique' => array(
-			// 	'rule' => 'isUnique'
+			// 'valid' => array(
+			// 	'rule' => array('url' => true)
 			// )
-		),
+		)
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
