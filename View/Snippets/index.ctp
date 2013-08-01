@@ -26,7 +26,7 @@
 						}
 						?>
 					</div>
-					<h4><?php echo $this->Html->link($this->Text->truncate(($snippet['Snippet']['title']), 42, array('exact' => false, 'ellipsis' => '&hellip;')), array('controller' => 'snippets', 'action' => 'view', $snippet['Snippet']['id'])) ; ?></h4>
+					<h4><?php echo $this->Html->link($this->Text->truncate(($snippet['Snippet']['title']), 42, array('exact' => false)), array('controller' => 'snippets', 'action' => 'view', $snippet['Snippet']['id'])) ; ?></h4>
 
 					<div class="snippet-meta">
 						<?php if (!empty($snippet['Snippet']['attachment'])):?>
