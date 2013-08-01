@@ -81,15 +81,13 @@ class SnippetsController extends AppController {
 
 		$this->paginate = array(
 			'limit' => 9,
-			'order' => array('created' => 'desc'),
 			'conditions' => $conditions
 		);
-		$this->Snippet->recursive = 0;
+
+
 		$this->Snippet->contain(array('User', 'Comment', 'Tag'));
 		$snippets = $this->paginate();
-		$this->set(compact('snippets'));
-		$this->set(compact('filters'));
-
+		$this->set(compact('snippets', 'filters'));
 	}
 
 /**

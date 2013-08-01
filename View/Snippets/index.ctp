@@ -1,9 +1,9 @@
 <div class="snippets index">
 	<div class="row">
-		<div class="large-4 columns">
+		<div class="large-3 columns">
 			<h4>Blackboard</h4>
 		</div>
-		<div class="large-8 columns">
+		<div class="large-5 columns">
 			<?php if (!empty($filters)):?>
 				<div class="active-filters">
 				<span>Aktive Filter:</span>  
@@ -13,6 +13,9 @@
 				?>
 				</div>
 			<?php endif ?>
+		</div>
+		<div class="large-4 columns">
+			Sortieren nach: <?php echo $this->Html->link('Datum', array('action' => 'index', 'sort' => 'created', 'direction' => 'desc')); ?> | <?php echo $this->Html->link('Hotness', array('action' => 'index', 'sort' => 'score', 'direction' => 'desc')); ?>
 		</div>
 	</div>
 	<ul class="snippets-list large-block-grid-3 small-block-grid-2">

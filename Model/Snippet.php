@@ -12,6 +12,8 @@ class Snippet extends AppModel {
 		'Containable'
 	);
 
+	public $order = array('created' => 'desc');
+
 /**
  * Validation rules
  *
