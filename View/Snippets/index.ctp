@@ -15,7 +15,9 @@
 			<?php endif ?>
 		</div>
 		<div class="large-4 columns">
-			Sortieren nach: <?php echo $this->Html->link('Datum', array('action' => 'index', 'sort' => 'created', 'direction' => 'desc')); ?> | <?php echo $this->Html->link('Hotness', array('action' => 'index', 'sort' => 'score', 'direction' => 'desc')); ?>
+			<div class="sorting">
+				Sortieren nach: <?php echo $this->Html->link('Datum', array('action' => 'index', 'sort' => 'created', 'direction' => 'desc')); ?> | <?php echo $this->Html->link('Hotness', array('action' => 'index', 'sort' => 'score', 'direction' => 'desc')); ?>
+			</div>
 		</div>
 	</div>
 	<ul class="snippets-list large-block-grid-3 small-block-grid-2">

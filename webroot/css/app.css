@@ -2884,7 +2884,7 @@ body.busy .busy-overlay {
   list-style-type: none; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\0000355}}
-.active-filters {
+.active-filters, .sorting {
   overflow: hidden;
   line-height: 28px;
   margin-top: 4px; }
