@@ -6,7 +6,7 @@
 		<div class="large-8 columns">
 			<h3><?php echo $snippet['Snippet']['title']; ?></h3>
 			<div class="snippet-description">
-				<?php echo $snippet['Snippet']['description']; ?>
+				<?php echo nl2br($snippet['Snippet']['description']); ?>
 			</div>
 			<div class="snippet-url">
 				<?php echo $this->Html->link($snippet['Snippet']['url'], $snippet['Snippet']['url'], array('target' => '_blank', 'id' => 'js-snippet-link', 'data-snippet-id' => $snippet['Snippet']['id']));?>

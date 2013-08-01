@@ -30,12 +30,12 @@
 			var $selector = $('<div id="snippets-bookmarklet-image-select" />');
 			var $selectorHeading = $('<h4>Wähle ein Bild für diesen Schnipsel</h4>');
 			var $selectorText = $('<p>Oder drücke &ldquo;Escape&rdquo; um abzubrechen</p>');
-			var $noImageLink = $('<a href="#">Oder hier klicken um ohne Bild fortzufahren</a>');
+			var $noImageLink = $('<p><a href="#">Oder hier klicken um ohne Bild fortzufahren</a></p>');
 
 			$selector
 				.append($selectorHeading)
-				.append($selectorText)
 				.append($noImageLink)
+				.append($selectorText)
 			;
 
 			var $images = $body.find('img');
