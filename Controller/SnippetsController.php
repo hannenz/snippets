@@ -23,24 +23,16 @@ class SnippetsController extends AppController {
 			}
 		}
 
-		$hotSnippets = $this->Snippet->find('list', array(
-			'conditions' => array(
-				'Snippet.created' => strftime('%Y-%m-%d %H:%M', strtotime('-1 month'))
-			),
-			'order' => array(
-				'Snippet.visits' => 'DESC'
-			),
-			'limit' => 5
-		));
-
 		$allTimeFaves = $this->Snippet->find('all', array(
 			'order' => array(
-				'Snippet.visits' => 'DESC'
+				'Snippet.score' => 'DESC'
 			),
 			'limit' => 5
 		));
 
-		$this->set(compact('hotSnippets', 'allTimeFaves', 'tagcloudTags'));
+
+		$starredSnippet = $this->Snippet->find('first', array('order' => 'RAND()', 'limit' => 1));
+		$this->set(compact('allTimeFaves', 'tagcloudTags', 'starredSnippet'));
 
 		if (in_array($this->request->params['action'], array('index', 'view'))){
 			$this->set('showSearch', true);
@@ -111,13 +103,10 @@ class SnippetsController extends AppController {
 			throw new NotFoundException('Oh je. Der angeforderte Schnipsel scheint nicht (mehr) zu existieren. Schade, aber ich hab wirklich überall nachgesehen und er ist nicht da. Womöglich gestohlen -- Im eigenen Haus.... Tut mir wirklich leid, nicht weitergeholfen haben zu können.');
 		} 
 
+		$this->increment_hits($id);
 
-		$this->Snippet->contain(array('User', 'Tag', 'Comment' => array('User')));
+		$this->Snippet->contain(array('User', 'Tag', 'Comment' => array('User'), 'Visit', 'Hit'));
 		$snippet = $this->Snippet->read();
-
-		$snippet['Snippet']['views']++;
-		$this->Snippet->saveField('views', $snippet['Snippet']['views']);
-
 		$this->set(compact('snippet'));
 	}
 
@@ -222,12 +211,12 @@ class SnippetsController extends AppController {
 			$this->activeUser = $user;
 
 			$this->Session->setFlash('Der Schnipsel wurde zu deinen Favoriten hinzugefügt', 'flash', array('type' => 'success'));
+			$this->Snippet->score($snippet_id, 5);
 		}
 		else {
 			$this->Session->setFlash('Dieser Schnipsel befindet sich bereits in deinen Favoriten', 'flash');
 		}
-		$this->redirect(array('action' => 'index'));
-
+		$this->redirect(array('action' => 'view', $snippet_id));
 	}
 
 	public function unstarr($id){
@@ -246,7 +235,10 @@ class SnippetsController extends AppController {
 		$this->Session->write('User',  $user);
 		$this->activeUser = $user;
 
-		$this->redirect(array('action' => 'index'));
+		$this->Snippet->score($id, -5);
+
+		$this->Session->setFlash('Der Schnipsel wurde von deinen Favoriten entfernt','flash', array('type' => 'success'));
+		$this->redirect(array('action' => 'view', $id));
 	}
 
 	public function recommend($id = null){
@@ -281,6 +273,9 @@ class SnippetsController extends AppController {
 			else {
 				$this->Session->setFlash('Beim Versneden ist ein Fehler aufgetreten', 'flash', array('type' => 'alert'));
 			}
+
+			$this->Snippet->score($id, 10);
+
 			$this->redirect(array('action' => 'index'));
 		}
 
@@ -338,18 +333,35 @@ class SnippetsController extends AppController {
 
 	public function increment_visits($id){
 		if ($this->request->is('ajax')){
+
 			$this->Snippet->id = $id;
 			if (!$this->Snippet->exists()){
 				throw new NotFoundException('Ungültige Schnipsel-Id');
 			}
+
+			$this->Snippet->Visit->save(array(
+				'snippet_id' => $id,
+				'ip' => env('REMOTE_ADDR')
+			));
+
+			$this->Snippet->contain(array('Visit'));
 			$snippet = $this->Snippet->read();
-			$snippet['Snippet']['visits']++;
-			$this->Snippet->saveField('visits', $snippet['Snippet']['visits']);
-			die (json_encode(array('visits' => $snippet['Snippet']['visits'])));
+			die (json_encode(array('visits' => count($snippet['Visit']), 'score' => $snippet['Snippet']['score'])));
 		}
 		die ();
 	}
 
+	public function increment_hits($id){
+		$this->Snippet->id = $id;
+		if (!$this->Snippet->exists()){
+			throw new NotFoundException('Ungültige Schnipsel-Id');
+		}
+
+		$this->Snippet->Hit->save(array(
+			'snippet_id' => $id,
+			'ip' => env('REMOTE_ADDR')
+		));
+	}
 
 	private function _notify($snippet){
 		$users = $this->Snippet->User->find('all', array(

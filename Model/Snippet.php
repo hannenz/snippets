@@ -74,7 +74,15 @@ class Snippet extends AppModel {
 	);
 
 	public $hasMany = array(
-		'Comment'
+		'Comment' => array(
+			'dependent' => true
+		),
+		'Visit' => array(
+			'dependent' => true
+		),
+		'Hit' => array(
+			'dependent' => true
+		)
 	);
 
 	public function beforeValidate($options = array()){
@@ -142,6 +150,12 @@ class Snippet extends AppModel {
 		$sec = ((integer) $sec) & 0xFFFF;
 		$uid = sprintf('%08x-%04x-%04x', ($ipbits[0] << 24) | ($ipbits[1] << 16) | ($ipbits[2] << 8) | $ipbits[3], $sec, $usec);
 		return ($uid);
+	}
+
+	public function score($id, $amount){
+		$score = $this->field('score', array('id' => $id));
+		$this->id = $id;
+		$this->saveField('score', $score + $amount);
 	}
 
 }

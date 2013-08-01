@@ -13,7 +13,7 @@
 			));
 			echo $this->Form->input('rememberme', array(
 				'type' => 'checkbox',
-				'label' => 'An mich erinnern'
+				'label' => 'Dauerhaft anmelden (An mich erinnern)'
 			));
 			echo $this->Form->button('Anmelden', array(
 				'type' => 'submit',

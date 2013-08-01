@@ -43,6 +43,7 @@ $(function(){
 
 			var json = $.parseJSON(response);
 			$('#js-visits').html(json['visits']);
+			$('#js-score').html(json['score']);
 		});
 
 	});

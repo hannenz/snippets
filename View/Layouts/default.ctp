@@ -139,7 +139,7 @@
 								</ul>
 							</aside>
 						<?php endif ?>
-						<?php if (!empty($allTimeFaves) && 0):?>
+						<?php if (!empty($allTimeFaves)):?>
 							<aside>
 								<h4>Heisse Schnipsel</h4>
 								<ul class="favorites">
@@ -151,6 +151,15 @@
 								</ul>
 							</aside>
 						<?php endif ?>
+						<?php if (!empty($starredSnippet)):?>
+							<aside>
+								<h4>Kennst du schon den&hellip;?</h4>
+								<div class="starred-snippet">
+									<?php echo $this->element('snippet_teaser', array('_snippet' => $starredSnippet['Snippet']));?>
+								</div>
+							</aside>
+						<?php endif ?>
+
 					</div>
 				</div>
 			</div>

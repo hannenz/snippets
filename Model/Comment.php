@@ -70,4 +70,10 @@ class Comment extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
+	public function afterSave($created){
+		if ($created){
+			$this->Snippet->score($this->data['Comment']['snippet_id'], 5);
+		}
+	}
 }

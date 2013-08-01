@@ -24,6 +24,7 @@
 			));
 			echo $this->Form->button('<i class="icon-envelope"></i> Empfehlung senden', array('class' => 'secondary radius button'));
 			echo $this->Form->end();
+			echo $this->Html->link('Zurück', array('action' => 'view', $snippet['Snippet']['id']), array('class' => 'secondary radius button'));
 			?>
 		</div>
 	</div>

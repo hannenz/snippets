@@ -27,7 +27,7 @@
 					}
 					?>
 				</div>
-				<div><small><?php printf('%u views, <span id="js-visits">%u</span> visits', $snippet['Snippet']['views'], $snippet['Snippet']['visits']); ?></small></div>
+				<div class="snippet-meta-stats"><small><?php printf('%u views, <span id="js-visits">%u</span> visits - Score: <span id="js-score">%u</span>', count($snippet['Hit']), count($snippet['Visit']), $snippet['Snippet']['score']); ?></small></div>
 			</div>
 
 			<div class="snippet-actions">
