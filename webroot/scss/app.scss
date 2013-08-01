@@ -104,6 +104,13 @@ body.busy .busy-overlay {
 	height:1.5em;
 }
 
+.snippet-description {
+	font-size:1em;
+	color:$body-font-color;
+	margin:1.5em 0;
+	line-height:1.5em;
+}
+
 .disabled {
 	display:none;
 }

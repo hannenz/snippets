@@ -2933,101 +2933,108 @@ body.busy .busy-overlay {
   height: 1.5em; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003107}}
+.snippet-description {
+  font-size: 1em;
+  color: #222222;
+  margin: 1.5em 0;
+  line-height: 1.5em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003114}}
 .disabled {
   display: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003118}}
 label {
   font-family: sans;
   font-size: 11px;
   color: #88898a;
   display: block; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003118}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003125}}
 .favorites, .favorites li {
   list-style-type: none;
   margin-bottom: 1.5em; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003123}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003130}}
 li.name {
   line-height: 45px;
   font-weight: bold; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003128}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003135}}
 .no-more-snippets {
   text-align: center;
   color: #898a8b;
   font-style: italic; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003134}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003141}}
 .more-snippets {
   width: 100%; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003138}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003145}}
 .more-snippets a {
   width: 100%; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003142}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003149}}
 .paginator-next {
   width: 100%;
   display: block;
   color: #fff; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003146}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003153}}
   .paginator-next a {
     display: block;
     color: #fff;
     width: 100%; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003154}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003161}}
 .secondary.label, .primary.label {
   background: #d1d1d2; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003158}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003165}}
 textarea {
   min-height: 160px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003162}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003169}}
 .sidebar {
   background: #f9fafb;
   position: relative;
   left: 0.9375em;
   border-radius: 5px 0 0 5px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003169}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003176}}
 aside {
   padding: 1.5em 0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003173}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003180}}
 .main-footer {
   background: #2795b6;
   padding: 3em 0;
   margin-top: 3em;
   color: #fff;
   text-align: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003179}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003186}}
   .main-footer a {
     color: #fff;
     text-decoration: underline; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003186}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003193}}
 .error-message {
   color: #c00000;
   margin-bottom: 1.5em; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003193}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003200}}
 div.input.checkbox {
   clear: both;
   margin-bottom: 1.5em; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003197}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003204}}
   div.input.checkbox input[type=checkbox] {
     display: block;
     float: left;
     margin-right: 8px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003202}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003209}}
   div.input.checkbox label {
     display: block;
     line-height: 1em; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003208}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/html\/snippets\/app\/webroot\/scss\/app\.scss}line{font-family:\00003215}}
 div.required label:after {
   content: ' *'; }

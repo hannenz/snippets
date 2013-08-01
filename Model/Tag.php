@@ -11,6 +11,8 @@ class Tag extends AppModel {
 		'Containable'
 	);
 
+	public $order = array('name' => 'ASC');
+
 /**
  * Validation rules
  *
