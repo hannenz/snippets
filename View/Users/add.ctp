@@ -47,7 +47,7 @@
 					'label' => 'Ein mal am Tag per E-Mail über alle neue Schnipsel am schwarzen Brett benachrichtigt werden',
 					'checked' => true
 				));
-				echo $this->Form->input('notify_on_comment', array(
+				echo $this->Form->input('notify_on_comments', array(
 					'label' => 'Über neue Kommentare zu meinen Schnipseln per E-Mail informieren'
 				));
 				echo $this->Form->button('Registrieren', array('type' => 'submit', 'class' => 'secondary radius button'));

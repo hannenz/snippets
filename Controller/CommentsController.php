@@ -18,6 +18,27 @@ class CommentsController extends AppController {
 			$this->Comment->create();
 			if ($this->Comment->save($this->request->data)) {
 				$this->Session->setFlash('Dein Kommentar wurde gespeichert.', 'flash', array('type' => 'success'));
+
+				$this->Comment->contain(array(
+					'Snippet' => array(
+						'User'
+					),
+					'User'
+				));
+				$comment = $this->Comment->read();
+
+				if ($comment['Snippet']['User']['notify_on_comments']){
+					App::uses('CakeEmail', 'Network/Email');
+					$Email = new CakeEmail();
+					$Email->config('smtp');
+					$Email->to($comment['Snippet']['User']['email']);
+					$Email->subject('Einer deiner Schnipsel wurde kommentiert');
+					$Email->emailFormat('both');
+					$Email->template('notify_comment');
+					$Email->viewVars(compact('comment'));
+					$Email->send();
+				}
+
 				$this->redirect(array('controller' => 'snippets', 'action' => 'view', $this->request->data['Comment']['snippet_id']));
 			}
 			else {

@@ -90,8 +90,8 @@ class SnippetsController extends AppController {
 		$this->Snippet->id = $id;
 
 		if (!$this->Snippet->exists()) {
-			throw new NotFoundException(__('Invalid snippet'));
-		}
+			throw new NotFoundException('Oh je. Der angeforderte Schnipsel scheint nicht (mehr) zu existieren. Schade, aber ich hab wirklich überall nachgesehen und er ist nicht da. Womöglich gestohlen -- Im eigenen Haus.... Tut mir wirklich leid, nicht weitergeholfen haben zu können.');
+		} 
 
 		$this->Snippet->contain(array('User', 'Tag', 'Comment' => array('User')));
 		$snippet = $this->Snippet->read(null, $id);

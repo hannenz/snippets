@@ -9,6 +9,10 @@ App::uses('AppModel', 'Model');
  */
 class Comment extends AppModel {
 
+	public $actsAs = array(
+		'Containable'
+	);
+
 /**
  * Validation rules
  *
