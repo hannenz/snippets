@@ -316,7 +316,8 @@ class SnippetsController extends AppController {
 	private function _notify($snippet){
 		$users = $this->Snippet->User->find('all', array(
 			'conditions' => array(
-				'User.notify_on_new_snippet' => true
+				'User.notify_on_new_snippet' => true,
+				'User.id !=' => $this->activeUser['User']['id']
 			)
 		));
 		if (count($users) > 0){
