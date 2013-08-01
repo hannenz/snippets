@@ -133,16 +133,21 @@
 								<ul class="favorites">
 								<?php foreach ($activeUser['Favorite'] as $fav):?>
 									<li>
-										<div class="row">
-											<div class="large-3 small-3 columns">
-												<?php echo $this->Html->image($fav['image']); ?>
-											</div>
-											<div class="large-9 small-9 columns">
-												<?php echo $this->Html->link($fav['title'], array('controller' => 'snippets', 'action' => 'view', $fav['id'])); ?>
-											</div>
-										</div>
+										<?php echo $this->element('snippet_teaser', array('_snippet' => $fav));?>
 									</li>
 								<?php endforeach ?>
+								</ul>
+							</aside>
+						<?php endif ?>
+						<?php if (!empty($allTimeFaves) && 0):?>
+							<aside>
+								<h4>Heisse Schnipsel</h4>
+								<ul class="favorites">
+									<?php foreach ($allTimeFaves as $snippet):?>
+									<li>
+										<?php echo $this->element('snippet_teaser', array('_snippet' => $snippet['Snippet']));?>
+									</li>
+									<?php endforeach ?>
 								</ul>
 							</aside>
 						<?php endif ?>

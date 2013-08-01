@@ -22,7 +22,25 @@ class SnippetsController extends AppController {
 				$tagcloudTags[$key] = $n;
 			}
 		}
-		$this->set(compact('tagcloudTags'));
+
+		$hotSnippets = $this->Snippet->find('list', array(
+			'conditions' => array(
+				'Snippet.created' => strftime('%Y-%m-%d %H:%M', strtotime('-1 month'))
+			),
+			'order' => array(
+				'Snippet.visits' => 'DESC'
+			),
+			'limit' => 5
+		));
+
+		$allTimeFaves = $this->Snippet->find('all', array(
+			'order' => array(
+				'Snippet.visits' => 'DESC'
+			),
+			'limit' => 5
+		));
+
+		$this->set(compact('hotSnippets', 'allTimeFaves', 'tagcloudTags'));
 
 		if (in_array($this->request->params['action'], array('index', 'view'))){
 			$this->set('showSearch', true);
@@ -93,8 +111,13 @@ class SnippetsController extends AppController {
 			throw new NotFoundException('Oh je. Der angeforderte Schnipsel scheint nicht (mehr) zu existieren. Schade, aber ich hab wirklich überall nachgesehen und er ist nicht da. Womöglich gestohlen -- Im eigenen Haus.... Tut mir wirklich leid, nicht weitergeholfen haben zu können.');
 		} 
 
+
 		$this->Snippet->contain(array('User', 'Tag', 'Comment' => array('User')));
-		$snippet = $this->Snippet->read(null, $id);
+		$snippet = $this->Snippet->read();
+
+		$snippet['Snippet']['views']++;
+		$this->Snippet->saveField('views', $snippet['Snippet']['views']);
+
 		$this->set(compact('snippet'));
 	}
 
@@ -238,8 +261,9 @@ class SnippetsController extends AppController {
 
 		if ($this->request->is('post')){
 			$this->Snippet->User->displayField = 'email';
-			$users = $this->Snippet->User->find('list', array('coditions' => array('User.id' => $this->request->data['Snippet']['emails'])));
+			debug ($this->request->data['Snippet']['emails']);
 
+			$users = $this->Snippet->User->find('list', array('conditions' => array('User.id' => $this->request->data['Snippet']['emails'])));
 
 			$Email = new CakeEmail();
 			$Email->config('smtp');
@@ -310,6 +334,20 @@ class SnippetsController extends AppController {
 		unlink(WWW_ROOT . $snippet['Snippet'][$type]);
 		$this->Snippet->saveField($type, '', false);
 		$this->redirect(array('action' => 'edit', $id));
+	}
+
+	public function increment_visits($id){
+		if ($this->request->is('ajax')){
+			$this->Snippet->id = $id;
+			if (!$this->Snippet->exists()){
+				throw new NotFoundException('Ungültige Schnipsel-Id');
+			}
+			$snippet = $this->Snippet->read();
+			$snippet['Snippet']['visits']++;
+			$this->Snippet->saveField('visits', $snippet['Snippet']['visits']);
+			die (json_encode(array('visits' => $snippet['Snippet']['visits'])));
+		}
+		die ();
 	}
 
 
