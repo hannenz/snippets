@@ -87,6 +87,12 @@ body.busy .busy-overlay {
 	outline:1px dashed #ccc;
 }
 
+.snippet-img-wrap a {
+	display:block;
+	width:100%;
+	height:100%;
+}
+
 .snippet-img-wrap img {
 	display:block;
 }
@@ -214,4 +220,8 @@ div.input.checkbox {
 
 div.required label:after {
 	content:' *';
+}
+
+.about ol {
+	margin-left:$column-gutter;
 }

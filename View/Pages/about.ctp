@@ -2,9 +2,27 @@
 	<h2>Blackboard</h2>
 	<h3>Das digitale schwarze Brett</h3>
 
-	<p>Teile Deine Webfundstücke am Digitalen Schwarzen Brett</p>
+	<p>Teile Deine Webfundstücke am Digitalen Schwarzen Brett und tausche Dich über neue Trends, Techniken, Interessantes, Lustiges oder Kurioses aus.</p>
 
-	<p>Obiecta pecuniae iudicant peccant, diesque deterruisset a primorum chrysippo turpius docti possunt inanes doctissimos, labefactetur maxime locupletiorem locis incursione intellegitur quanta iudicabit paria.</p>
-	<p>Contra. Tantum referri maxime, dicam corpus vellem nominavi profecta optabilem decore. Theatro duce investigandi consentientis dixi pacuvii.</p>
-	<p>Poenis occultum ingeniis ferri sapientia, profectus dictum pertinaces tantopere imperio numeris, tradere. Everti parte importari cohaerescent infinito, turpius. Asperiores dolendum campum deduceret futuris saepe vivatur deleniti suapte explicari. Istae intuemur ignavia scientia, imitarentur contenta elaboraret atomus transferre quiddam consilio gravissimas insipientiam, derepta faciendi erudito pellat multam putemus finxerat expetendam bonae.</p>
+	<p><em>Blackboard</em> ist eine kleine Webplatform, die von der <?php echo $this->Html->link('Agentur Halma', 'http://agentur-halma.de'); ?> für internen Ideenaustausch, Inspiration und Kreativitätsgenerierung betrieben wird. <em>Blackboard</em> ist jedoch öffentlich erreichbar und jeder ist herzlich eingeladen in unserem Schwarzes Brett zu stöbern oder sogar selbst einen Account anzulegen und mitzumachen.</p>
+
+	<h4>Getting Started</h4>
+
+	<ol>
+		<li>
+			Erstelle einen Account: <?php echo $this->Html->link('Registrieren', array('controller' => 'users', 'action' => 'add')); ?>
+		</li>
+		<li>
+			Hol dir das <?php echo $this->Html->link('Bookmarklet', array('controller' => 'pages', 'action' => 'display', 'get_bookmarklet')); ?>
+		</li>
+		<li>
+			Wann immer Dir im Web was gefällt, kannst du es mit Hilfe des Bookmarklets ganz einfach und schnell am <em>Blackboard</em> posten
+		</li>
+		<li>
+			Fragen, Unklarheiten, Bugs, Probleme? <?php echo $this->Html->link('j.braun@agentur-halma.de', 'mailto:j.braun@agentur-halma.de'); ?>
+		</li>
+	</ol>
+
+	<p>Viel Spaß beim Schnipseln!</p>
 </div>
+
