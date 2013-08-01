@@ -25,6 +25,6 @@
 <body>
 	<?php echo $this->fetch('content'); ?>
 	<hr>
-	<p>Blackboard | http://<?php echo $_SERVER['SERVER_NAME']; ?></p>
+	<p>Blackboard | <?php echo $this->Html->link('http://blackboard.agentur-halma.de'); ?></p>
 </body>
 </html>

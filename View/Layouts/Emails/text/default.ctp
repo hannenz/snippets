@@ -20,4 +20,5 @@
 <?php echo $this->fetch('content'); ?>
 
 ------------------------------------------------------------------------------
-Blackboard | <?php echo $_SERVER['SERVER_NAME']; ?>
+Blackboard | http://blackboard.agentur-halma.de
+
