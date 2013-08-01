@@ -24,6 +24,9 @@ class SnippetsController extends AppController {
 		}
 
 		$allTimeFaves = $this->Snippet->find('all', array(
+			'conditoins' => array(
+				'Snippet.score >' => 0
+			),
 			'order' => array(
 				'Snippet.score' => 'DESC'
 			),
