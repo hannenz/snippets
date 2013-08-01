@@ -111,6 +111,7 @@
 							 <?php echo $this->Tagcloud->word_cloud($tagcloudTags);?>
 						</aside>
 						<?php endif ?>
+						<?php if (isset($showSearch)):?>
 						<aside>
 							<h4>Suche</h4>
 							<form action="/snippets/index" method="post">
@@ -124,8 +125,8 @@
 								</div>
 							</form>
 						</aside>
+						<?php endif ?>
 
-							</form>
 						<?php if ($userId && count($activeUser['Favorite']) > 0):?>
 							<aside>
 								<h4>Meine Favoriten</h4>

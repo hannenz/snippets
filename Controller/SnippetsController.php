@@ -23,6 +23,10 @@ class SnippetsController extends AppController {
 			}
 		}
 		$this->set(compact('tagcloudTags'));
+
+		if (in_array($this->request->params['action'], array('index', 'view'))){
+			$this->set('showSearch', true);
+		}
 	}
 
 /**
