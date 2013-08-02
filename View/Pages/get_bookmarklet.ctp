@@ -14,7 +14,7 @@ $domain = env('HTTP_HOST');
 		<p>
 			Diesen Button in deine Lesezeichen-Symbolleiste ziehen 
 			<br>
-			<a class="secondary large radius button" href="javascript:domain='<?php echo $domain; ?>'; (function(){document.body.appendChild(document.createElement('script')).src='http://<?php echo $domain; ?>/js/savesnippet.bookmarklet.js';})();"><i class="icon-cut"></i> Schnipsel</a>
+			<a class="secondary large radius button" href="javascript:domain='<?php echo $domain; ?>'; (function(){document.body.appendChild(document.createElement('script')).src='http://<?php echo $domain; ?>/js/savesnippet.bookmarklet.min.js';})();"><i class="icon-cut"></i> Schnipsel</a>
 			<br>
 			<small>Oder das Linkziel des Buttons als Lesezeichen ablegen</small>
 		</p>

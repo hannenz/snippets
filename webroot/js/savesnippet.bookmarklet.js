@@ -10,7 +10,6 @@
  * @author Johannes Braun <j.braun@agentur-halma.de>
  * @package snippets
 */
-console.log('BOOKmarkLET');
 (function(){
 
 	// the minimum version of jQuery we want
@@ -18,15 +17,12 @@ console.log('BOOKmarkLET');
 
 	// check prior inclusion and version
 	if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
-		console.log('No jquery, trying to load it...');
 		var done = false;
 		var script = document.createElement("script");
 		script.src = 'http://ajax.googleapis.com/ajax/libs/jquery/' + v + '/jquery.min.js';
 		script.onload = script.onreadystatechange = function(){
-			console.log('script has been loaded');
 			if (!done && (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')) {
 				done = true;
-				console.log('No initializing bookmarklet main code');
 				initSnippetsBookmarklet();
 			}
 		};
@@ -37,10 +33,7 @@ console.log('BOOKmarkLET');
 	}
 	
 	function initSnippetsBookmarklet() {
-		console.log('..');
 		(window.snippetsBookmarklet = function() {
-			console.log('...');
-
 
 			/* Since we jump directly into a completly alien environment, we don't know what other scripts
 			   are there... */
@@ -95,10 +88,8 @@ console.log('BOOKmarkLET');
 						;
 						count++;
 					}
-					console.log(n);
 					if (--n == 0){
 						// Has the last image been loaded? Then show selector
-						console.log('Showing selector');
 						_showSelector();
 					}
 				}
