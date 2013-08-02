@@ -38,6 +38,5 @@ class NotifyShell extends AppShell {
 			}
 		}
 	}
-
 }
 ?>
