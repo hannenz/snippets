@@ -42,6 +42,7 @@
 	float:left;
 	display:block;
 	height:100px;
+	width:auto;
 	opacity:0.75;
 	cursor:pointer;
 }
