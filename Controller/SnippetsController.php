@@ -321,6 +321,15 @@ class SnippetsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
+	/**
+	 * select_image
+	 * 
+	 * Just deliver some markup to the bookmarklet via ajax
+	 */
+	public function select_image(){
+		$this->layout = 'ajax';
+	}
+
 	public function remove_file($id, $type){
 		$this->Snippet->id = $id;
 		if (!$this->Snippet->exists()) {

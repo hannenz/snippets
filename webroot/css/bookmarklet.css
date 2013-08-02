@@ -1,13 +1,40 @@
 #snippets-bookmarklet-image-select {
-	background:#fff;
+	background:rgba(10, 10, 10, 0.9);
 	padding:10px;
 	width:100%;
-	z-index:32767;
+	z-index:99999;
 	display:block;
 	position:fixed;
+	height:100%;
+	overflow:scroll;
 	top:0;
 	left:0;
 	border-bottom:2px solid #898a8b;
+	font-family:"Helvetica Neue", "Helvetica", helvetica, arial, sans-serif;
+	font-size:14px;
+	color:#fff;
+	line-height:1.5em;
+	text-align:left;
+}
+
+#snippets-bookmarklet-image-select h4 {
+	font-family:"Helvetica Neue", "Helvetica", helvetica, arial, sans-serif;
+	color:#fff;
+	line-height:1.5em;
+	margin:0 0 1em 0;
+	text-transform:none;
+	font-weight:bold;
+}
+
+#snippets-bookmarklet-image-select a {
+	font-family:"Helvetica Neue", "Helvetica", helvetica, arial, sans-serif;
+	font-size:14px;
+	color:#fff;
+	text-decoration:underline;
+}
+
+#snippets-bookmarklet-image-select p {
+	color:#ccc;
 }
 
 .snippets-bookmarklet-image {
@@ -15,10 +42,11 @@
 	float:left;
 	display:block;
 	height:100px;
-	opacity:0.5;
+	opacity:0.75;
 	cursor:pointer;
 }
 
 .snippets-bookmarklet-image:hover {
 	opacity:1.0;
 }
+
