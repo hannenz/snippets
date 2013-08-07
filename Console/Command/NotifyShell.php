@@ -32,7 +32,7 @@ class NotifyShell extends AppShell {
 					$Email->subject('Blackboard: Your Daily Dose');
 					$Email->emailFormat('both');
 					$Email->template('notify_daily');
-					$Email->viewVars(array('user' => $user, 'snippets' => $snippets, 'servername' => 'snippets.halma.lan'));
+					$Email->viewVars(array('user' => $user, 'snippets' => $snippets, 'servername' => 'blackboard.agentur-halma.de'));
 					$Email->send();
 				}
 			}
